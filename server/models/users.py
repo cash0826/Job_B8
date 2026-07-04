@@ -14,6 +14,7 @@ class User(db.Model):
   image_url = db.Column(db.String)
   created_at = db.Column(db.DateTime, default=datetime.timezone.utc)
   
+  # Has (many) Jobs
   jobs = db.relationship('Job', back_populates='user')
   
   # Email validation
@@ -38,6 +39,8 @@ class User(db.Model):
   
 class UserSchema(Schema):
   id = fields.Int()
-  username = fields.String()
+  name = fields.String()
+  email = fields.String()
+  image_url = fields.String()
   
   jobs = fields.List(fields.Nested("JobSchema", exclude=('jobs',)))
