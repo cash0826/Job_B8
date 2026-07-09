@@ -4,7 +4,6 @@ from marshmallow import Schema, fields
 class Job(db.Model):
   __tablename__ = "jobs"
   
-  
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String, nullable=False)
   company = db.Column(db.String, nullable=False)
@@ -16,8 +15,8 @@ class Job(db.Model):
     nullable=False
   )
   
-  # Foreign key to join User
-  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  # Foreign key to join Users table (Users.id)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   
   # Relationship Mapping: One-to-Many. Many Jobs belog to a single User
   user = db.relationship('User', back_populates="jobs")
@@ -25,7 +24,7 @@ class Job(db.Model):
   # Has (many) Events, Contacts and Associated Documents
   events = db.relationship('Event', back_populates="Job")
   contacts = db.relationship('Contact', back_populates="Job")
-  associated_documents = db.relationship("Associated_Documents", back_populates="Job")
+  associated_documents = db.relationship("Associated_Document", back_populates="Job")
 
 class JobSchema(Schema):
   id = fields.Int()

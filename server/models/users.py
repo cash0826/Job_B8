@@ -15,7 +15,7 @@ class User(db.Model):
   created_at = db.Column(db.DateTime, default=datetime.timezone.utc)
   
   # Has (many) Jobs
-  jobs = db.relationship('Job', back_populates='user')
+  jobs = db.relationship('Job', back_populates='user', cascade='all, delete-orphan')
   
   # Email validation
   @validates
