@@ -28,7 +28,7 @@ class Job(db.Model):
   # Has (many) Events, Contacts and Associated Documents
   events = db.relationship('Event', back_populates='job')
   contacts = db.relationship('Contact', back_populates='job')
-  associated_documents = db.relationship("Associated_Document", back_populates='job')
+  associated_documents = db.relationship("AssociatedDocument", back_populates='job')
   
   # Add default values and transition validation
   @validates("status")
