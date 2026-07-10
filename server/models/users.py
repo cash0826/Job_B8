@@ -25,6 +25,7 @@ class User(db.Model):
       raise ValueError('Email must be a string')
     if '@' not in address:
       raise ValueError('Email must have @ in the address')
+    return address
   
   @hybrid_property
   def password_hash(self):

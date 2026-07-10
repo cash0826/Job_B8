@@ -22,13 +22,13 @@ class Job(db.Model):
   # Foreign key to join Users table (Users.id)
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   
-  # Relationship Mapping: One-to-Many. Many Jobs belong to a single User
+  # Many Jobs belong to a single User
   user = db.relationship('User', back_populates="jobs")
   
   # Has (many) Events, Contacts and Associated Documents
-  events = db.relationship('Event', back_populates="Job")
-  contacts = db.relationship('Contact', back_populates="Job")
-  associated_documents = db.relationship("Associated_Document", back_populates="Job")
+  events = db.relationship('Event', back_populates='job')
+  contacts = db.relationship('Contact', back_populates='job')
+  associated_documents = db.relationship("Associated_Document", back_populates='job')
   
   # Add default values and transition validation
   @validates("status")
@@ -44,7 +44,7 @@ class Job(db.Model):
       )
     return new_status
 
-# Error handling
+# Validation messaging for errors
 def status_validator(value):
   try:
     JobStatus(value)
@@ -66,6 +66,6 @@ class JobSchema(Schema):
   
   user = fields.Nested("UserSchema", exclude=("users",))
 
-  # events = fields.List(fields.Nested("EventSchema", exclude="events"))
-  # contacts = fields.List(fields.Nested("ContactSchema", exclude="contacts"))
-  # associated_documents = fields.List(fields.Nested("AssociatedDocumentsSchema", exclude="associated_documents"))
+  events = fields.List(fields.Nested("EventSchema", exclude="events"))
+  contacts = fields.List(fields.Nested("ContactSchema", exclude="contacts"))
+  associated_documents = fields.List(fields.Nested("AssociatedDocumentsSchema", exclude="associated_documents"))

@@ -9,6 +9,7 @@ class JobStatus(Enum):
   INTERVIEWING = "Interviewing"
   JOB_OFFER = "Job Offer"
   
+  # Single Source of truth for allowed transitions, easy validation and prevents impossible jumps
   @classmethod
   def allowed_transitions(cls):
     return {
@@ -24,4 +25,3 @@ class JobStatus(Enum):
   def can_transition(cls, old, new):
     return new in cls.allowed_transitions().get(old, set())
   
-# Single Source of truth for allowed transitions, easy validation and prevents impossible jumps
