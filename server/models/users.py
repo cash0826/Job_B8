@@ -13,7 +13,7 @@ class User(db.Model):
   email = db.Column(db.String, unique=True, nullable=False)
   _password_hash = db.Column(db.String, nullable=False)
   image_url = db.Column(db.String)
-  created_at = db.Column(db.DateTime, default=datetime)
+  created_at = db.Column(db.DateTime, default=datetime.now)
   
   # Has (many) Jobs
   jobs = db.relationship('Job', back_populates='user', cascade='all, delete-orphan')

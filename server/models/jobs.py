@@ -1,7 +1,7 @@
 from config import db
 from marshmallow import Schema, fields, ValidationError
 from .enums import JobStatus
-from sqlalcheny.orm import validates
+from sqlalchemy.orm import validates
 
 class Job(db.Model):
   __tablename__ = "jobs"
@@ -28,7 +28,7 @@ class Job(db.Model):
   # Has (many) Events, Contacts and Associated Documents
   events = db.relationship('Event', back_populates='job')
   contacts = db.relationship('Contact', back_populates='job')
-  associated_documents = db.relationship("Associated_Document", back_populates='job')
+  associated_documents = db.relationship("AssociatedDocument", back_populates='job')
   
   # Add default values and transition validation
   @validates("status")
@@ -66,6 +66,6 @@ class JobSchema(Schema):
   
   user = fields.Nested("UserSchema", exclude=("users",))
 
-  events = fields.List(fields.Nested("EventSchema", exclude="events"))
-  contacts = fields.List(fields.Nested("ContactSchema", exclude="contacts"))
-  associated_documents = fields.List(fields.Nested("AssociatedDocumentsSchema", exclude="associated_documents"))
+  events = fields.List(fields.Nested("EventSchema", exclude=('events',)))
+  contacts = fields.List(fields.Nested("ContactSchema", exclude=('contacts',)))
+  associated_documents = fields.List(fields.Nested("AssociatedDocumentsSchema", exclude=('associated_documents',)))

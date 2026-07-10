@@ -7,7 +7,7 @@ class Event(db.Model):
   
   id = db.Column(db.Integer, primary_key=True)
   event = db.Column(db.String, nullable=False)
-  scheduled_time = db.Column(db.Datetime, nullable=False)
+  scheduled_time = db.Column(db.DateTime, nullable=False)
   notes = db.Column(db.Text)
   
   # Foreign key to join jobs 
@@ -19,7 +19,7 @@ class Event(db.Model):
 class EventSchema(Schema):
   id = fields.Int()
   event = fields.Str(load_default="Saved", dump_default="Saved")
-  scheduled_time = fields.Datetime()
+  scheduled_time = fields.DateTime()
   notes = fields.Str()
   
-  job = fields.Nested("JobSchema", exclude=("events",))
+  job = fields.List(fields.Nested("JobSchema", exclude=("events",)))
