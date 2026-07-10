@@ -19,7 +19,7 @@ class Event(db.Model):
 class EventSchema(Schema):
   id = fields.Int()
   event = fields.Str(load_default="Saved", dump_default="Saved")
-  scheduled_time = fields.Date(format="%Y-%m-%d")
+  scheduled_time = fields.Datetime()
   notes = fields.Str()
   
   job = fields.Nested("JobSchema", exclude=("events",))
