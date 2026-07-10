@@ -1,4 +1,4 @@
-from random import randint, choice
+from random import choice
 from faker import Faker
 from config import app, db
 from models import User, Job, Contact, Event, Contact, AssociatedDocument
