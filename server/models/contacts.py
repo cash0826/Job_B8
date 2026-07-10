@@ -30,4 +30,4 @@ class ContactSchema(Schema):
   name = fields.Str()
   email = fields.Str()
   
-  job = fields.Nested('JobSchema', exclude=('contacts',))
+  job = fields.List(fields.Nested('JobSchema', exclude=('contacts',)))

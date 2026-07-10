@@ -14,8 +14,8 @@ class AssociatedDocument(db.Model):
   # Belongs to a single job
   job = db.relationship('Job', back_populates='associated_documents')
   
-class AssociatedDocumentSchema(db.Model):
+class AssociatedDocumentSchema(Schema):
   id = fields.Int()
   type = fields.Str()
   
-  job = fields.Nested('JobSchema', exclude=('associated_documents'))
+  job = fields.List(fields.Nested('JobSchema', exclude=('associated_documents',)))

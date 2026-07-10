@@ -1,7 +1,7 @@
 from config import db
 from marshmallow import Schema, fields, ValidationError
 from .enums import JobStatus
-from sqlalcheny.orm import validates
+from sqlalchemy.orm import validates
 
 class Job(db.Model):
   __tablename__ = "jobs"
@@ -66,6 +66,6 @@ class JobSchema(Schema):
   
   user = fields.Nested("UserSchema", exclude=("users",))
 
-  events = fields.List(fields.Nested("EventSchema", exclude="events"))
-  contacts = fields.List(fields.Nested("ContactSchema", exclude="contacts"))
-  associated_documents = fields.List(fields.Nested("AssociatedDocumentsSchema", exclude="associated_documents"))
+  events = fields.List(fields.Nested("EventSchema", exclude=('events',)))
+  contacts = fields.List(fields.Nested("ContactSchema", exclude=('contacts',)))
+  associated_documents = fields.List(fields.Nested("AssociatedDocumentsSchema", exclude=('associated_documents',)))
