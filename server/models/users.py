@@ -6,13 +6,14 @@ from marshmallow import Schema, fields
 
 class User(db.Model):
   __tablename__ = "users"
+  __table_args__ = {'extend_existing': True}
   
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, nullable=False)
   email = db.Column(db.String, unique=True, nullable=False)
   _password_hash = db.Column(db.String, nullable=False)
   image_url = db.Column(db.String)
-  created_at = db.Column(db.DateTime, default=datetime.timezone.utc)
+  created_at = db.Column(db.DateTime, default=datetime)
   
   # Has (many) Jobs
   jobs = db.relationship('Job', back_populates='user', cascade='all, delete-orphan')
