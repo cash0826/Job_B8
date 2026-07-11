@@ -1,7 +1,7 @@
 from config import db
 from flask import request, jsonify, make_response
 from flask_restful import Resource
-from flask_jwt_extended import get_jwt_identity, create_access_token
+from flask_jwt_extended import get_jwt_identity, create_access_token, jwt_required
 from sqlalchemy.exc import IntegrityError
 from models.users import User, UserSchema
 
@@ -35,9 +35,10 @@ class Signup(Resource):
 
 # /checkjwtid GET
 class CheckJWTId(Resource):
+  @jwt_required()
   def get(self):
     user_id = get_jwt_identity()
-    user = User.query.filter(User.ir == user_id).first()
+    user = User.query.filter(User.id == user_id).first()
     return {
       "id": user.id,
       "name": user.name,
