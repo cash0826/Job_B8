@@ -7,39 +7,49 @@ from models.jobs import Job, JobSchema
 
 # global job schema instance for serialization
 job_schema = JobSchema()
+jobs_schema = JobSchema(many=True)
 
 class JobDashboard(Resource):
   
   # GET /jobs
   @jwt_required()
   def get(self):
+    user_id = get_jwt_identity()
+    
     # Pagination
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
-    jobs = Job.query.paginate(page=page, per_page=per_page, error_out=False)
+    jobs = Job.query.filter_by(user_id=user_id).paginate(
+      page=page, 
+      per_page=per_page, 
+      error_out=False
+    )
     return {
-      "jobs": JobSchema(many=True).dump(jobs.items),
+      "jobs": jobs_schema.dump(jobs.items),
       "total": jobs.total,
       "pages": jobs.pages,
       "current_page": jobs.page
-    }
+    }, 200
+    
   
   # POST /jobs
   @jwt_required()
   def post(self):
-    request_json = request.get_json()
+    user_id = get_jwt_identity()
+    data = request.get_json()
     try:
       job = Job(
-        title=request_json.get('title'),
-        company=request_json.get('company'),
-        location=request_json.get('location'),
-        url=request_json.get('url'),
-        description=request_json.get('description'),
-        status=request_json.get('status'),
-        user_id=get_jwt_identity()
+        title=data.get('title'),
+        company=data.get('company'),
+        location=data.get('location'),
+        url=data.get('url'),
+        description=data.get('description'),
+        status=data.get('status'),
+        user_id=user_id
       )
       db.session.add(job)
       db.session.commit()
+      return job_schema.dump(job), 201
     except IntegrityError:
       db.session.rollback()
       return {'errors': ['400 Invalid data']}, 400
@@ -47,28 +57,32 @@ class JobDashboard(Resource):
   # PATCH /jobs/<id>
   @jwt_required()
   def patch(self, id):
-      request_json = request.get_json()
-      
-      job = Job.query.filter_by(id=id, user_id=get_jwt_identity()).first()
-      
-      if job:
-        for key in request_json:
-          setattr(job, key, request_json[key])
-        try:
-          db.session.commit()
-          return job_schema.dump(job), 200
-        except IntegrityError:
-          db.session.rollback()
-          return {'errors': ['400 Invalid data']}, 400
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    
+    job = Job.query.filter_by(id=id, user_id=user_id()).first()
+    
+    if not job:
+      return {'errors': ['404 Job not found']}, 404
+    for key, value in data.items():
+      setattr(job, key, value)
+    try:
+      db.session.commit()
+      return job_schema.dump(job), 200
+    except IntegrityError:
+      db.session.rollback()
+      return {'errors': ['400 Invalid data']}, 400
         
   # DELETE /jobs/<id>
   @jwt_required()
   def delete(self, id):
-    job = Job.query.filter_by(id=id, user_id=get_jwt_identity()).first()
+    user_id = get_jwt_identity()
+    job = Job.query.filter_by(id=id, user_id=user_id).first()
     
-    if job:
-      db.session.delete(job)
-      db.session.commit()
-      return {'message': 'Job deleted successfully'}, 200
-    else:
-      return {'errors': ['404 Job not found']}, 404
+    if not job:
+      return { 'errors': ['404 Job not found']}, 404
+      
+    db.session.delete(job)
+    db.session.commit()
+    
+    return {'message': 'Job deleted successfully'}, 200

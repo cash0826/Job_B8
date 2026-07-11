@@ -45,4 +45,4 @@ class UserSchema(Schema):
   email = fields.String()
   image_url = fields.String()
   
-  jobs = fields.List(fields.Nested("JobSchema", exclude=('jobs',)))
+  jobs = fields.List(fields.Nested("JobSchema", exclude=('user',)))

@@ -64,8 +64,8 @@ class JobSchema(Schema):
   description = fields.Str()
   status = fields.Enum(JobStatus)
   
-  user = fields.Nested("UserSchema", exclude=("users",))
+  user = fields.Nested("UserSchema", exclude=("jobs",))
 
-  events = fields.List(fields.Nested("EventSchema", exclude=('events',)))
-  contacts = fields.List(fields.Nested("ContactSchema", exclude=('contacts',)))
-  associated_documents = fields.List(fields.Nested("AssociatedDocumentsSchema", exclude=('associated_documents',)))
+  events = fields.List(fields.Nested("EventSchema", exclude=('job',)))
+  contacts = fields.List(fields.Nested("ContactSchema", exclude=('job',)))
+  associated_documents = fields.List(fields.Nested("AssociatedDocumentSchema", exclude=('job',)))

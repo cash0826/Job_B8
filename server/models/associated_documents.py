@@ -18,4 +18,4 @@ class AssociatedDocumentSchema(Schema):
   id = fields.Int()
   type = fields.Str()
   
-  job = fields.List(fields.Nested('JobSchema', exclude=('associated_documents',)))
+  job = fields.Nested('JobSchema', exclude=('associated_documents',))
