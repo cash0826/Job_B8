@@ -1,5 +1,5 @@
 from config import db
-from flask import request, jsonify, make_response
+from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy.exc import IntegrityError
