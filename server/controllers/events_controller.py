@@ -40,20 +40,8 @@ class Events(Resource):
     if not job:
       return {'errors': ['404 Job not found']}, 404
     
-    # Pagination
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-    events = Event.query.filter_by(job_id=job.id).paginate(
-      page=page, 
-      per_page=per_page, 
-      error_out=False
-    )
-    return {
-      "events": events_schema.dump(events.items),
-      "total": events.total,
-      "pages": events.pages,
-      "current_page": events.page
-    }, 200
+    events = Event.query.filter_by(job_id=job.id).all()
+    return events_schema.dump(events), 200
   
   # POST /jobs/<id>/events
   @jwt_required()

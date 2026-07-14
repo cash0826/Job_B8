@@ -40,20 +40,8 @@ class Contacts(Resource):
     if not job:
       return {'errors': ['404 Job not found']}, 404
     
-    # Pagination
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-    contacts = Contact.query.filter_by(job_id=job.id).paginate(
-      page=page,
-      per_page=per_page,
-      error_out=False
-    )
-    return {
-      "contacts": contacts_schema.dump(contacts.items),
-      "total": contacts.total,
-      "pages": contacts.pages,
-      "current_page": contacts.page
-    }, 200
+    contacts = Contact.query.filter_by(job_id=job.id).all()
+    return contacts_schema.dump(contacts), 200
   
   # POST /jobs/<job_id>/contacts
   @jwt_required()
