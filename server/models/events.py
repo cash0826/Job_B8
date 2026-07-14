@@ -22,4 +22,4 @@ class EventSchema(Schema):
   scheduled_time = fields.DateTime()
   notes = fields.Str()
   
-  job = fields.List(fields.Nested("JobSchema", exclude=("events",)))
+  job = fields.Nested("JobSchema", exclude=("events",))

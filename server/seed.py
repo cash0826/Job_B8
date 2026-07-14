@@ -1,7 +1,7 @@
 from random import choice
 from faker import Faker
 from config import app, db
-from models import User, Job, Contact, Event, Contact, AssociatedDocument
+from models import User, Job, Contact, Event, Contact, Document
 
 fake = Faker()
 
@@ -12,7 +12,7 @@ with app.app_context():
   Job.query.delete()
   Contact.query.delete()
   Event.query.delete()
-  AssociatedDocument.query.delete()
+  Document.query.delete()
   
   # Creates One User
   print("Creating a test account...")
@@ -78,7 +78,7 @@ with app.app_context():
   documents = []
   for i in range(5):
     doc_type = choice(['Cover Letter', 'Resume', 'Job Offer', 'Job Contract'])
-    document = AssociatedDocument(
+    document = Document(
       type = doc_type
     )
     document.job = choice(jobs)
