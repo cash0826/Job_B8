@@ -11,7 +11,27 @@ events_schema = EventSchema(many=True)
 class Events(Resource):
   
   # GET /events
-  
+  @jwt_required()
+  def get(self):
+    # Pagination
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+    
+    # Query all events for authenticated user
+    events_query = EventService.get_all_events_for_user()
+    
+    events = events_query.paginate(
+      page=page,
+      per_page=per_page,
+      error_out=False
+    )
+    
+    return {
+      "events": events_schema.dump(events.items),
+      "total": events.total,
+      "pages": events.pages,
+      "current_page": events.page
+    }, 200
   
   # GET /jobs/<job_id>/events
   @jwt_required()
