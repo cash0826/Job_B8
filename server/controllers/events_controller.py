@@ -10,6 +10,9 @@ events_schema = EventSchema(many=True)
 
 class Events(Resource):
   
+  # GET /events
+  
+  
   # GET /jobs/<job_id>/events
   @jwt_required()
   def get(self, job_id):    
@@ -59,7 +62,7 @@ class Events(Resource):
     if not job:
       return {'errors': ['404 Job not found']}, 404
     
-    # Validated event belongs to job
+    # Validate event belongs to job
     event = EventService.get_event_for_job(event_id, job_id)
     if not event:
       return {'errors': ['404 Event not found']}, 404
@@ -70,7 +73,7 @@ class Events(Resource):
       return {'errors': ['400 Invalid data']}, 400
     return event_schema.dump(updated_event), 200
   
-  # DELETE /jobs/<id>/events/<id>
+  # DELETE /jobs/<job_id>/events/<event_id>
   @jwt_required()
   def delete(self, job_id, event_id):
     job = EventService.get_job_for_user(job_id)
@@ -83,5 +86,4 @@ class Events(Resource):
     
     if not EventService.delete_event(event):
       return {'errors': ['400 Could not delete event']}, 400
-    
     return {'message': 'Event deleted successfully'}, 200
