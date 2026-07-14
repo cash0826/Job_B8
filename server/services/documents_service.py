@@ -2,7 +2,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import get_jwt_identity
 from config import db
 from models.jobs import Job
-from server.models.documents import Document
+from models.documents import Document
 
 # Services controls SQL queries, commits and rollbacks
 # Services controls ownership logic, nested validation and try/except blocks
