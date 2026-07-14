@@ -1,8 +1,8 @@
 from config import db
 from marshmallow import Schema, fields
 
-class AssociatedDocument(db.Model):
-  __tablename__ = "associated_documents"
+class Document(db.Model):
+  __tablename__ = "documents"
   __table_args__ = {'extend_existing': True}
   
   id = db.Column(db.Integer, primary_key=True)
@@ -12,10 +12,10 @@ class AssociatedDocument(db.Model):
   job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
   
   # Belongs to a single job
-  job = db.relationship('Job', back_populates='associated_documents')
+  job = db.relationship('Job', back_populates='documents')
   
-class AssociatedDocumentSchema(Schema):
+class DocumentSchema(Schema):
   id = fields.Int()
   type = fields.Str()
   
-  job = fields.Nested('JobSchema', exclude=('associated_documents',))
+  job = fields.Nested('JobSchema', exclude=('documents',))

@@ -25,10 +25,10 @@ class Job(db.Model):
   # Many Jobs belong to a single User
   user = db.relationship('User', back_populates="jobs")
   
-  # Has (many) Events, Contacts and Associated Documents
+  # Has (many) Events, Contacts and Documents
   events = db.relationship('Event', back_populates='job')
   contacts = db.relationship('Contact', back_populates='job')
-  associated_documents = db.relationship("AssociatedDocument", back_populates='job')
+  documents = db.relationship("Document", back_populates='job')
   
   # Add default values and transition validation
   @validates("status")
@@ -68,4 +68,4 @@ class JobSchema(Schema):
 
   events = fields.List(fields.Nested("EventSchema", exclude=('job',)))
   contacts = fields.List(fields.Nested("ContactSchema", exclude=('job',)))
-  associated_documents = fields.List(fields.Nested("AssociatedDocumentSchema", exclude=('job',)))
+  documents = fields.List(fields.Nested("DocumentSchema", exclude=('job',)))

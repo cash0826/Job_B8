@@ -2,12 +2,12 @@ from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import get_jwt_identity
 from config import db
 from models.jobs import Job
-from models.contacts import Contact
+from server.models.documents import Document
 
 # Services controls SQL queries, commits and rollbacks
 # Services controls ownership logic, nested validation and try/except blocks
 
-class ContactService:
+class DocumentService:
   
   @staticmethod
   def get_job_for_user(job_id):
@@ -16,52 +16,52 @@ class ContactService:
     return job
   
   @staticmethod
-  def get_all_contacts_for_user():
+  def get_all_documents_for_user():
     user_id = get_jwt_identity()
-    return Contact.query.join(Job).filter(Job.user_id==user_id)
+    return Document.query.join(Job).filter(Job.user_id==user_id)
   
   @staticmethod
-  def get_contact_for_job(contact_id, job_id):
-    contact = Contact.query.filter_by(id=contact_id, job_id=job_id).first()
-    return contact
+  def get_document_for_job(document_id, job_id):
+    document = Document.query.filter_by(id=document_id, job_id=job_id).first()
+    return document
   
   @staticmethod
-  def create_contact(job_id, data):
+  def create_document(job_id, data):
     user_id = get_jwt_identity()
     job = Job.query.filter_by(id=job_id, user_id=user_id).first()
     if not job:
       return None, "job_not_found"
     
-    contact = Contact(job_id=job_id, **data)
+    document = Document(job_id=job_id, **data)
     try:
-      db.session.add(contact)
+      db.session.add(document)
       db.session.commit()
-      return contact, None
+      return document, None
     except IntegrityError:
       db.session.rollback()
       return None, "invalid_data"
-
+  
   @staticmethod
-  def update_contact(contact, data):
+  def update_document(document, data):
     for key, value in data.items():
-      setattr(contact, key, value)
+      setattr(document, key, value)
     try:
       db.session.commit()
-      return contact
+      return document
     except IntegrityError:
       db.session.rollback()
       return None
-
+    
   @staticmethod
-  def delete_contact(contact):
+  def delete_document(document):
     try:
-      db.session.delete(contact)
+      db.session.delete(document)
       db.session.commit()
       return True
     except IntegrityError:
       db.session.rollback()
       return False
-  
+    
 # 401 Unauthorized handled by jwt_required
 # 404 Not Found
 # 400 Invalid data
