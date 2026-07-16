@@ -9,7 +9,7 @@ event_schema = EventSchema()
 events_schema = EventSchema(many=True)
 
 class Events(Resource):
-  
+    
   # GET /events
   @jwt_required()
   def get(self):
@@ -32,7 +32,9 @@ class Events(Resource):
       "pages": events.pages,
       "current_page": events.page
     }, 200
-  
+
+class JobEvents(Resource):
+
   # GET /jobs/<job_id>/events
   @jwt_required()
   def get(self, job_id):    

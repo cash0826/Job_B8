@@ -9,11 +9,11 @@ document_schema = DocumentSchema()
 documents_schema = DocumentSchema(many=True)
 
 class Documents(Resource):
-  
+    
   # GET /documents
   @jwt_required()
   def get(self):
-    # Pagintation
+    # Pagination
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
     
@@ -32,6 +32,8 @@ class Documents(Resource):
       "pages": documents.pages,
       "current_page": documents.page
     }, 200
+
+class JobDocuments(Resource):
     
   # GET /jobs/<job_id>/documents
   @jwt_required()
@@ -95,5 +97,4 @@ class Documents(Resource):
     if not DocumentService.delete_document(document):
       return {'errors': ['400 Could not delete document']}, 400
     return {'message': 'Document deleted successfully'}, 200
-  
   
