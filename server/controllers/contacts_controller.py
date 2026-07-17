@@ -32,6 +32,8 @@ class Contacts(Resource):
       "pages": contacts.pages,
       "current_page": contacts.page
     }, 200
+
+class JobContacts(Resource):
   
   # GET /jobs/<job_id>/contacts
   @jwt_required()
@@ -91,6 +93,7 @@ class Contacts(Resource):
     contact = ContactService.get_contact_for_job(contact_id, job_id)
     if not contact:
       return {'errors': ['404 Contact not found']}, 404
+    
     if not ContactService.delete_contact(contact):
       return {'errors': ['400 Could not delete contact']}, 400
     return {'message': 'Contact deleted successfully'}, 200

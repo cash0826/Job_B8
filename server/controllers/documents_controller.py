@@ -9,11 +9,11 @@ document_schema = DocumentSchema()
 documents_schema = DocumentSchema(many=True)
 
 class Documents(Resource):
-  
+    
   # GET /documents
   @jwt_required()
   def get(self):
-    # Pagintation
+    # Pagination
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
     
@@ -32,6 +32,8 @@ class Documents(Resource):
       "pages": documents.pages,
       "current_page": documents.page
     }, 200
+
+class JobDocuments(Resource):
     
   # GET /jobs/<job_id>/documents
   @jwt_required()
@@ -40,7 +42,7 @@ class Documents(Resource):
     if not job:
       return {'errors': ['404 Job not found']}, 404
     
-    documents = Document.query.filter_by(job_id=job.id).all
+    documents = Document.query.filter_by(job_id=job.id).all()
     return documents_schema.dump(documents), 200
   
   # POST /jobs/<job_d>/documents
@@ -56,7 +58,7 @@ class Documents(Resource):
       return {'errors': ['404 Job not found']}, 404
     if error == "invalid_data":
       return {'errors': ['400 Invalid data']}, 400
-    return documents_schema.dump(document), 201
+    return document_schema.dump(document), 201
   
   # PATCH /jobs/<job_id/documents/<document_id>
   @jwt_required()
@@ -95,5 +97,4 @@ class Documents(Resource):
     if not DocumentService.delete_document(document):
       return {'errors': ['400 Could not delete document']}, 400
     return {'message': 'Document deleted successfully'}, 200
-  
   

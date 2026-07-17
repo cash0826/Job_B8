@@ -3,7 +3,7 @@ from flask import request, jsonify, make_response
 from flask_restful import Resource
 from flask_jwt_extended import get_jwt_identity, create_access_token, jwt_required
 from sqlalchemy.exc import IntegrityError
-from models.users import User, UserSchema
+from models.users import User
 
 # /signup POST
 class Signup(Resource):
@@ -20,6 +20,7 @@ class Signup(Resource):
     
     user = User(
       name=name,
+      email=email,
       image_url=image_url
     )
     user.password_hash = password
@@ -28,7 +29,7 @@ class Signup(Resource):
       db.session.add(user)
       db.session.commit()
       access_token = create_access_token(identity=str(user.id))
-      return make_response(jsonify(token=access_token))
+      return {'token': access_token}, 200
     except IntegrityError:
       db.session.rollback()
       return {'errors': ['400 Invalid data']}, 400
@@ -55,7 +56,12 @@ class Login(Resource):
     user = User.query.filter_by(email=email).first()
     if user and user.authenticate(password):
       token = create_access_token(identity=str(user.id))
-      return make_response(jsonify(token=token, user=UserSchema().dump(user)), 200)
+      return make_response(jsonify(
+        token=token, 
+        user=user.id, 
+        email=user.email, 
+        image_url=user.image_url
+      ), 200)
     return {'errors': ['401 Unauthorized']}, 401
   
   # Logout is controlled by frontend. 

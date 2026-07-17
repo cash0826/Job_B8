@@ -15,6 +15,7 @@ flask-jwt-extended = "*"
 marshmallow = "*"
 faker = "*"
 dotenv = "*"
+pytest = "*"
 
 [dev-packages]
 

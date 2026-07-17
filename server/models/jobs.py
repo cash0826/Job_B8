@@ -26,9 +26,9 @@ class Job(db.Model):
   user = db.relationship('User', back_populates="jobs")
   
   # Has (many) Events, Contacts and Documents
-  events = db.relationship('Event', back_populates='job')
-  contacts = db.relationship('Contact', back_populates='job')
-  documents = db.relationship("Document", back_populates='job')
+  events = db.relationship('Event', back_populates='job', cascade='all, delete-orphan')
+  contacts = db.relationship('Contact', back_populates='job', cascade='all, delete-orphan')
+  documents = db.relationship("Document", back_populates='job', cascade='all, delete-orphan')
   
   # Add default values and transition validation
   @validates("status")
@@ -62,7 +62,7 @@ class JobSchema(Schema):
   location = fields.Str()
   url = fields.Url()
   description = fields.Str()
-  status = fields.Enum(JobStatus)
+  status = fields.Enum(JobStatus, by_value=True)
   
   user = fields.Nested("UserSchema", exclude=("jobs",))
 

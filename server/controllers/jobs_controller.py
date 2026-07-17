@@ -4,6 +4,7 @@ from flask_restful import Resource
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy.exc import IntegrityError
 from models.jobs import Job, JobSchema
+from models.enums import JobStatus
 
 # global job schema instance for serialization
 job_schema = JobSchema()
@@ -37,13 +38,16 @@ class JobDashboard(Resource):
     user_id = get_jwt_identity()
     data = request.get_json()
     try:
+      # Validates status from endpoint layer or returns 'None'
+      status_value = data.get('status')
+      job_status = JobStatus(status_value) if status_value else None
       job = Job(
         title=data.get('title'),
         company=data.get('company'),
         location=data.get('location'),
         url=data.get('url'),
         description=data.get('description'),
-        status=data.get('status'),
+        status=job_status,
         user_id=user_id
       )
       db.session.add(job)
@@ -58,7 +62,7 @@ class JobDashboard(Resource):
   def patch(self, id):
     user_id = get_jwt_identity()
     data = request.get_json()
-    job = Job.query.filter_by(id=id, user_id=user_id()).first()
+    job = Job.query.filter_by(id=id, user_id=user_id).first()
     
     if not job:
       return {'errors': ['404 Job not found']}, 404

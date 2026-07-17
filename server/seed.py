@@ -14,18 +14,26 @@ with app.app_context():
   Event.query.delete()
   Document.query.delete()
   
-  # Creates One User
-  print("Creating a test account...")
-  john = User(name="John", email="john@email.com")
-  john.password_hash = 'johnpassword'
-  db.session.add(john)
+  # Creates 5 Users
+  print("Creating 5 test accounts...")
+  users = []
+  for i in range(5):
+    name = fake.unique.first_name()
+    email = name.lower() + '@email.com'
+    password = name.lower() + 'password'
+    user=User(
+      name=name,
+      email=email,
+    )
+    user.password_hash = password
+    users.append(user)
+  db.session.add_all(users)
   db.session.commit()
-  print("Created 'John' - Use john@email.com for email and johnpassword for password.")
   
   # Creates Job Postings
-  print("Creating 5 test job postings...")  
+  print("Creating 20 test job postings...")  
   jobs = []
-  for i in range(5):
+  for i in range(20):
     job = Job(
       title=fake.job(),
       company=fake.company(),
@@ -33,7 +41,7 @@ with app.app_context():
       url=fake.url(),
       description=fake.paragraph(nb_sentences=2)
     )
-    job.user = john
+    job.user = choice(users)
     jobs.append(job)
   db.session.add_all(jobs)
   db.session.commit()
@@ -41,7 +49,7 @@ with app.app_context():
   # Creates Contacts
   print("Creating test contacts...")
   contacts = []
-  for i in range(10):
+  for i in range(30):
     contact_first_name = fake.first_name()
     contact_last_name = fake.last_name()
     name = contact_first_name + ' ' + contact_last_name
@@ -58,9 +66,9 @@ with app.app_context():
   db.session.commit()
   
   # Create Event
-  print("Creating text events...")
+  print("Creating test events...")
   events = []
-  for i in range(5):
+  for i in range(30):
     event_type = choice(['HR Interview', 'Assessment', 'Meeting', 'Follow-Up'])
     notes = fake.sentence(nb_words=5)
     event = Event(
@@ -76,7 +84,7 @@ with app.app_context():
   # Create AssociateDocument
   print("Creating documents...")
   documents = []
-  for i in range(5):
+  for i in range(30):
     doc_type = choice(['Cover Letter', 'Resume', 'Job Offer', 'Job Contract'])
     document = Document(
       type = doc_type
