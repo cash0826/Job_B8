@@ -14,7 +14,7 @@ export async function loadJobs() {
     });
 
     if (!response.ok) {
-      console.error(`POST request failed at ${url}. Response: ${ response.status}`)
+      console.error(`GET request failed at ${url}. Response: ${ response.status}`)
       return null
     }
 
@@ -22,7 +22,7 @@ export async function loadJobs() {
     return data
 
   } catch (error) {
-    console.error("Login request error:", error)
+    console.error("Job request error: ", error)
     return null
   }
 }
