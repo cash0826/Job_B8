@@ -42,7 +42,7 @@ class JobDocuments(Resource):
     if not job:
       return {'errors': ['404 Job not found']}, 404
     
-    documents = Document.query.filter_by(job_id=job.id).all
+    documents = Document.query.filter_by(job_id=job.id).all()
     return documents_schema.dump(documents), 200
   
   # POST /jobs/<job_d>/documents
@@ -58,7 +58,7 @@ class JobDocuments(Resource):
       return {'errors': ['404 Job not found']}, 404
     if error == "invalid_data":
       return {'errors': ['400 Invalid data']}, 400
-    return documents_schema.dump(document), 201
+    return document_schema.dump(document), 201
   
   # PATCH /jobs/<job_id/documents/<document_id>
   @jwt_required()

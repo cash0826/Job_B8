@@ -18,7 +18,7 @@ with app.app_context():
   print("Creating 5 test accounts...")
   users = []
   for i in range(5):
-    name = fake.first_name()
+    name = fake.unique.first_name()
     email = name.lower() + '@email.com'
     password = name.lower() + 'password'
     user=User(

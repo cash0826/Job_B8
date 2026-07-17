@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import get_jwt_identity
 from config import db
@@ -32,6 +33,8 @@ class EventService:
     if not job:
       return None, "job_not_found"
     
+    if 'scheduled_time' in data and isinstance(data['scheduled_time'], str):
+      data['scheduled_time'] = datetime.fromisoformat(data['scheduled_time'])
     event = Event(job_id=job_id, **data)
     try:
       db.session.add(event)

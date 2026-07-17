@@ -20,6 +20,7 @@ class Signup(Resource):
     
     user = User(
       name=name,
+      email=email,
       image_url=image_url
     )
     user.password_hash = password
@@ -28,7 +29,7 @@ class Signup(Resource):
       db.session.add(user)
       db.session.commit()
       access_token = create_access_token(identity=str(user.id))
-      return make_response(jsonify(token=access_token))
+      return {'token': access_token}, 200
     except IntegrityError:
       db.session.rollback()
       return {'errors': ['400 Invalid data']}, 400

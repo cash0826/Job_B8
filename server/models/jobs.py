@@ -62,7 +62,7 @@ class JobSchema(Schema):
   location = fields.Str()
   url = fields.Url()
   description = fields.Str()
-  status = fields.Enum(JobStatus)
+  status = fields.Enum(JobStatus, by_value=True)
   
   user = fields.Nested("UserSchema", exclude=("jobs",))
 
