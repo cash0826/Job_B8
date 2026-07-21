@@ -1,9 +1,8 @@
-// Already in proxy
-const BASE_URL = `http://localhost:5555`;
+const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Load events
 export async function loadevents() {
-  const url = "/events"
+  const url = `${BASE_URL}/events`
 
   try {
     const response = await fetch(url, {

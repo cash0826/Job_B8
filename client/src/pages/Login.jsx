@@ -15,7 +15,7 @@ function Login({onLogin}) {
       password: password
     }
     userLogin(userData)
-      .then( (data) => onLogin(token, user))
+      .then( ({token, user}) => onLogin(token, user))
       .catch( (error) => setErrors(error))
     setIsLoading(false)
   }
