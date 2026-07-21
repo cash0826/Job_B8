@@ -3,13 +3,12 @@ import LeftNavBar from "./components/LeftNavBar";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Events from "./pages/Events";
-import Contact from "./pages/Contacts";
+import Contacts from "./pages/Contacts";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 function App() {
-  // For scrolling
-  const location = useLocation()
+  // For scrolling const location = useLocation()
 
   return (
     <>
