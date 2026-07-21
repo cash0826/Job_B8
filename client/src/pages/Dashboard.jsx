@@ -10,7 +10,7 @@ function JobDashboard() {
   useEffect(() => {
     // let currentUser = await getJWTUserId();
     getJWTUserId()
-      .then( (data) => setUser(prevUser => [...prevUser, currentUser]) )
+      .then( (user) => setUser(existing => user) )
       .catch( (error) => console.log("Error fetching user: ", error) )
 
     loadJobs()
