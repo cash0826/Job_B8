@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import LeftNavBar from "./components/LeftNavBar";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./components/Dashboard";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Events from "./pages/Events";
 import Contacts from "./pages/Contacts";
@@ -14,12 +15,19 @@ function App() {
     <>
       <BrowserRouter>
         <LeftNavBar/>
+
         <Routes>
-          <Route path="/" element={<Dashboard/> }> </Route>
+          {/* Public Route */}
           <Route path="/login" element={<Login/> }> </Route>
-          <Route path="/events" element={<Events/> }> </Route>
-          <Route path="/contacts" element={<Contacts/> }> </Route>
-          <Route path="/profile" element={<Profile/>}> </Route>
+
+          {/* Protected layout */}
+          <Route path="/" element={<Home/> }> 
+            <Route index element={<Dashboard/>} />
+            <Route path="/events" element={<Events/> }> </Route>
+            <Route path="/contacts" element={<Contacts/> }> </Route>
+            <Route path="/profile" element={<Profile/>}> </Route>
+          </Route>
+          
           <Route path="*" element={<NotFound/> }> </Route>
         </Routes>
       </BrowserRouter>
