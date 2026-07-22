@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom"
 import Overview from "./Overview";
-import List from "./List";
+import JobList from "./JobList";
 
 function Dashboard() {
   const {jobs} = useOutletContext();
@@ -9,7 +9,7 @@ function Dashboard() {
   return (
     <>
       <Overview/>
-      <List/>
+      <JobList/>
     </>
   )
 }

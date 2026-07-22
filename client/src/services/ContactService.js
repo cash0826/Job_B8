@@ -12,12 +12,12 @@ export async function loadContacts() {
       }
     });
 
-    if (!reponse.ok) {
+    if (!response.ok) {
       console.error(`GET request failed at ${ url }. Response: ${ response.status }`)
       return null
     }
 
-    const data = response.json()
+    const data = await response.json()
     const contacts = data.contacts
     return contacts
 

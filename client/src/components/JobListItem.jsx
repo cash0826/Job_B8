@@ -1,6 +1,6 @@
 
 
-function ListItem( { job } ) {
+function JobListItem( { job } ) {
 
   return (
     <div>
@@ -16,4 +16,4 @@ function ListItem( { job } ) {
   )
 }
 
-export default ListItem;
+export default JobListItem;

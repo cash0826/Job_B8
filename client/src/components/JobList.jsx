@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom"
-import ListItem from "./ListItem";
+import JobListItem from "./JobListItem";
 
-function List() {
+function JobList() {
   const {jobs} = useOutletContext();  
 
   // Handle error response
@@ -16,7 +16,7 @@ function List() {
   return (
     <div className="job-list">
       {jobs.map(job => (
-        <ListItem
+        <JobListItem
           key={job.id}
           job={job}
         />
@@ -25,4 +25,4 @@ function List() {
   )
 }
 
-export default List;
+export default JobList;
