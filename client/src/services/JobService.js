@@ -18,7 +18,8 @@ export async function loadJobs() {
     }
 
     const data = await response.json()
-    return data
+    const jobs = data.jobs
+    return jobs
 
   } catch (error) {
     console.error("Job request error: ", error)
