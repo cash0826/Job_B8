@@ -1,7 +1,7 @@
 const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Load events
-export async function loadevents() {
+export async function loadEvents() {
   const url = `${BASE_URL}/events`
 
   try {
@@ -18,7 +18,8 @@ export async function loadevents() {
     }
 
     const data = await response.json()
-    return data
+    const events = data.events
+    return events
 
   } catch (error) {
     console.error("Event request error: "), error

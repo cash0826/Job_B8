@@ -21,7 +21,7 @@ function App() {
       .then( (u) => setUser(u))
       .catch( () => setUser(null))
       .finally(() => setLoading(false))
-  })
+  }, []);
 
   function onLogin(userData) {
     setUser(userData)

@@ -23,7 +23,14 @@ This application will centralize all of your job applications to a single view, 
 4. 
 
 
-## Overview of Functionality/Features
+## Overview of Functionality/Features (expected)
+
+1. SQL Data Models, API Endpoints, and React Components.
+2. Integrates user authentication, ownership-based access controls and relational resources with full CRUD functionality.
+3. Asynchronous communication between frontend and backend.
+4. Manages application state, loading/error handling, and persistence.
+5. Clean, modular, and reuseable code.
+6. Reporting feature on user's dashboard.
 
 ## Known Challenges or Limitations
 

@@ -27,7 +27,7 @@ class Contacts(Resource):
     )
     
     return {
-      "contact": contacts_schema.dump(contacts.items),
+      "contacts": contacts_schema.dump(contacts.items),
       "total": contacts.total,
       "pages": contacts.pages,
       "current_page": contacts.page
