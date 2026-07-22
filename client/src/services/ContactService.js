@@ -18,7 +18,8 @@ export async function loadContacts() {
     }
 
     const data = response.json()
-    return data
+    const contacts = data.contacts
+    return contacts
 
   } catch (error) {
     console.error("Event request error: ", error)

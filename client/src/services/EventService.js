@@ -18,7 +18,8 @@ export async function loadevents() {
     }
 
     const data = await response.json()
-    return data
+    const events = data.events
+    return events
 
   } catch (error) {
     console.error("Event request error: "), error
