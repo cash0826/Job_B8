@@ -10,3 +10,5 @@ function LeftNavBar() {
     </nav>
   )
 }
+
+export default LeftNavBar;

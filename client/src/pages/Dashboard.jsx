@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { userLogin, getJWTUserId } from "../services/UserService"
-import { loadJobs } from "../services/JobServices";
-import { Login } from "./Login";
+import { useState, useEffect } from 'react'
+import { getJWTUserId } from "../services/UserService"
+import { loadJobs } from "../services/JobService";
+import Login from "../pages/Login";
 
 
-function JobDashboard() {
+function Dashboard() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -16,7 +16,11 @@ function JobDashboard() {
     loadJobs()
   }, []);
 
-  if (!user) return <Login />;
+  const onLogin = (user) => {
+    setUser(user)
+  }
+
+  if (!user) return <Login onLogin={onLogin}/>;
 
   return (
     <>
@@ -25,4 +29,4 @@ function JobDashboard() {
 }
 
 
-export default JobDashboard
+export default Dashboard;

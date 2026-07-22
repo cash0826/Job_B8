@@ -1,9 +1,8 @@
-// Already in proxy
-const BASE_URL = `http://localhost:5555`;
+const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Get JWT Token
 export async function getJWTUserId() {
-  const url = "/checkjwtid"
+  const url = `${BASE_URL}/checkjwtid`
 
   try {
     const response = await fetch(url, {
@@ -26,7 +25,7 @@ export async function getJWTUserId() {
 
 // LOGIN
 export async function userLogin(userData) {
-  const url = "/login"
+  const url = `${BASE_URL}/login`
 
   try {
     const response = await fetch(url, {

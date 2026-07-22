@@ -1,9 +1,8 @@
-// Already in proxy
-const BASE_URL = `http://localhost:5555`;
+const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Load Contacts
 export async function loadContacts() {
-  const url = "/contacts"
+  const url = `${BASE_URL}/contacts`
 
   try {
     const response = await fetch(url, {
