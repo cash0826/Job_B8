@@ -20,8 +20,8 @@ function Login({onLogin}) {
           setErrors(["Login Failed. Invalid Credentials"])
           return
         }
-        const {token, user } = data
-        onLogin({ token, user})
+        const {token, userID } = data
+        onLogin({ token, userID})
       })
       .catch((error) => setErrors(error))
       .finally(() => setIsLoading(false))

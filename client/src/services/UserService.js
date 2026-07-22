@@ -15,7 +15,7 @@ export async function getJWTUserId() {
       return null
     }
     const data = await response.json();
-    return data.user
+    return data
 
   } catch (error) {
     console.error("User request error: ", error)
