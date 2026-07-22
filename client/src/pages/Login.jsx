@@ -15,16 +15,23 @@ function Login({onLogin}) {
       password: password
     }
     userLogin(userData)
-      .then( ({token, user}) => onLogin(token, user))
-      .catch( (error) => setErrors(error))
-    setIsLoading(false)
+      .then((data) => {
+        if (!data) {
+          setErrors(["Login Failed. Invalid Credentials"])
+          return
+        }
+        const {token, userID } = data
+        onLogin({ token, userID})
+      })
+      .catch((error) => setErrors(error))
+      .finally(() => setIsLoading(false))
   }
 
   return (
     <div className="login-page">
       <h3>Job Bait:</h3>
       <form className="login-form" onSubmit={handleSubmit}>
-        <label htmlFor="email">Username</label>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
@@ -32,7 +39,7 @@ function Login({onLogin}) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label htmlFor="password">Email</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"
