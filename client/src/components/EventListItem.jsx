@@ -5,7 +5,9 @@ function EventListItem( { event } ) {
   return (
     <div>
       <p>
-        {event.title}
+        {event.event},
+        {event.scheduled_time},
+        {event.notes}
       </p>
     </div>
   )

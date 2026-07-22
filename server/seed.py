@@ -47,13 +47,13 @@ with app.app_context():
   db.session.commit()
   
   # Creates Contacts
-  print("Creating test contacts...")
+  print("Creating 30 test contacts...")
   contacts = []
   for i in range(30):
     contact_first_name = fake.first_name()
     contact_last_name = fake.last_name()
     name = contact_first_name + ' ' + contact_last_name
-    email = contact_first_name + '@recruiteremail.com'
+    email = contact_first_name.lower() + '@recruiteremail.com'
     
     contact = Contact(
       name=name,
@@ -66,7 +66,7 @@ with app.app_context():
   db.session.commit()
   
   # Create Event
-  print("Creating test events...")
+  print("Creating 30 test events...")
   events = []
   for i in range(30):
     event_type = choice(['HR Interview', 'Assessment', 'Meeting', 'Follow-Up'])
@@ -82,7 +82,7 @@ with app.app_context():
   db.session.commit()
   
   # Create AssociateDocument
-  print("Creating documents...")
+  print("Creating 30 documents...")
   documents = []
   for i in range(30):
     doc_type = choice(['Cover Letter', 'Resume', 'Job Offer', 'Job Contract'])
