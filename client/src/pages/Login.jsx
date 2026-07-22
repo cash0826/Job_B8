@@ -29,7 +29,7 @@ function Login({onLogin}) {
 
   return (
     <div className="login-page">
-      <h3>Job Bait:</h3>
+      <h3>Job B8🪱:</h3>
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
