@@ -29,7 +29,13 @@ class Signup(Resource):
       db.session.add(user)
       db.session.commit()
       access_token = create_access_token(identity=str(user.id))
-      return {'token': access_token}, 200
+      return {
+        'token': access_token,
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "image_url": user.image_url
+      }, 200
     except IntegrityError:
       db.session.rollback()
       return {'errors': ['400 Invalid data']}, 400
@@ -44,6 +50,7 @@ class CheckJWTId(Resource):
       "id": user.id,
       "name": user.name,
       "email": user.email,
+      "image_url": user.image_url
     }, 200
 
 # /login POST
@@ -58,7 +65,8 @@ class Login(Resource):
       token = create_access_token(identity=str(user.id))
       return make_response(jsonify(
         token=token, 
-        user=user.id, 
+        user=user.id,
+        name=user.name,
         email=user.email, 
         image_url=user.image_url
       ), 200)

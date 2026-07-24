@@ -5,8 +5,7 @@ function ContactListItem( { contact } ) {
   return (
     <div>
       <p>
-        {contact.name}
-        {contact.email}
+        {contact.name} | {contact.email}
       </p>
     </div>
   )

@@ -28,6 +28,12 @@ function App() {
     navigate("/");
   }
 
+  function logout() {
+    localStorage.removeItem("token")
+    setUser(null);
+    navigate("/login");
+  }
+
   if (loading) {
     return <p>Checking authentication...</p>
   }
@@ -42,7 +48,7 @@ function App() {
 
         {/* Protected layout */}
         <Route element={<ProtectedRoute user={user} />}>
-          <Route path="/" element={<Home user={user}/> }> 
+          <Route path="/" element={<Home user={user} logout={logout}/> }> 
             <Route index element={<Dashboard/>} />
             <Route path="/events" element={<Events/> }> </Route>
             <Route path="/contacts" element={<Contacts/> }> </Route>

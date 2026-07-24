@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Outlet } from "react-router-dom";
 import { loadJobs } from "../services/JobService";
 
-function Home({ user }) {
+function Home({ user, logout }) {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function Home({ user }) {
   return (
     <main>
       <h2>Job B8🪱</h2>
-      <Outlet context={{ jobs }}/>
+      <Outlet context={{ jobs, user, logout }}/>
     </main>
   )
 }

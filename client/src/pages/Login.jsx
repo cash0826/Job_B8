@@ -20,8 +20,14 @@ function Login({onLogin}) {
           setErrors(["Login Failed. Invalid Credentials"])
           return
         }
-        const {token, userID } = data
-        onLogin({ token, userID})
+        const user = {
+          "user": data.user,
+          "name": data.name,
+          "token": data.token,
+          "email": data.email,
+          "image_url": data.image_url
+        }
+        onLogin(user)
       })
       .catch((error) => setErrors(error))
       .finally(() => setIsLoading(false))
@@ -29,7 +35,7 @@ function Login({onLogin}) {
 
   return (
     <div className="login-page">
-      <h3>Job Bait:</h3>
+      <h3>Job B8🪱:</h3>
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
