@@ -1,9 +1,12 @@
 from config import db
-from flask import request, jsonify, make_response
+from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import get_jwt_identity, create_access_token, jwt_required
 from sqlalchemy.exc import IntegrityError
-from models.users import User
+from models.users import User, UserSchema
+
+# global contact schema instance for serialization
+user_schema = UserSchema()
 
 # /signup POST
 class Signup(Resource):
@@ -63,13 +66,10 @@ class Login(Resource):
     user = User.query.filter_by(email=email).first()
     if user and user.authenticate(password):
       token = create_access_token(identity=str(user.id))
-      return make_response(jsonify(
-        token=token, 
-        user=user.id,
-        name=user.name,
-        email=user.email, 
-        image_url=user.image_url
-      ), 200)
+      return {
+        "token": token, 
+        "user": user_schema.dump(user)        
+      }, 200
     return {'errors': ['401 Unauthorized']}, 401
   
   # Logout is controlled by frontend. 

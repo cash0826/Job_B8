@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { userLogin } from "../services/UserService"
 
-function Login({onLogin}) {
+function Login({ onLogin, setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
@@ -21,11 +21,10 @@ function Login({onLogin}) {
           return
         }
         const user = {
-          "user": data.user,
-          "name": data.name,
-          "token": data.token,
-          "email": data.email,
-          "image_url": data.image_url
+          token: data.token,
+          name: data.name,
+          email: data.email,
+          image_url: data.image_url,
         }
         onLogin(user)
       })

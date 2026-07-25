@@ -30,8 +30,8 @@ def test_signup_and_login_happy_path(app_client):
     login_response = app_client.post('/login', json=login_payload)
     assert login_response.status_code == 200
     login_data = login_response.get_json()
-    assert login_data['user'] == 1
-    assert login_data['email'] == 'test@example.com'
+    assert login_data['user']["id"] == 1
+    assert login_data['user']["email"] == 'test@example.com'
     assert 'token' in login_data
 
 
