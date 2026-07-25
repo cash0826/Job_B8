@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Get JWT Token
 export async function getJWTUserId() {
-  const url = `${BASE_URL}/checkjwtid`
+  const url = `${BASE_URL}/api/checkjwtid`
 
   try {
     const response = await fetch(url, {
@@ -15,7 +15,7 @@ export async function getJWTUserId() {
       return null
     }
     const data = await response.json();
-    return data
+    return data // user info only
 
   } catch (error) {
     console.error("User request error: ", error)
@@ -25,7 +25,7 @@ export async function getJWTUserId() {
 
 // LOGIN
 export async function userLogin(userData) {
-  const url = `${BASE_URL}/login`
+  const url = `${BASE_URL}/api/login`
 
   try {
     const response = await fetch(url, {
@@ -45,11 +45,11 @@ export async function userLogin(userData) {
     if (data.token) {
       localStorage.setItem("token", data.token)
     }
-
-    return data; // contains token + user info
+    // data contains token and user object
+    return data.user; // user info only
 
   } catch (error) {
-    console.error("Login request error: ", error)
+    console.error("userLogin request error: ", error)
     return null
   }
 }

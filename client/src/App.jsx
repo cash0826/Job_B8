@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom"
-import LeftNavBar from "./components/LeftNavBar";
 import Dashboard from "./components/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
@@ -10,50 +9,43 @@ import Contacts from "./pages/Contacts";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { getJWTUserId } from "./services/UserService";
+import { useAuth } from "./context/AuthContext.jsx";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     getJWTUserId()
-      .then( (u) => setUser(u))
-      .catch( () => setUser(null))
-      .finally(() => setLoading(false))
-  }, []);
+      .then( (u) => {
+        setAuthUser(u)
+        setIsLoggedIn(true)
+      })
+      .catch(() => {
+        setAuthUser(null)
+        setIsLoggedIn(false)
+      })
+  }, [])
 
-  function onLogin(userData) {
-    setUser(userData)
-    navigate("/");
-  }
-
-  function logout() {
-    localStorage.removeItem("token")
-    setUser(null);
-    navigate("/login");
-  }
-
-  if (loading) {
-    return <p>Checking authentication...</p>
-  }
+  const {authUser,
+    setAuthUser,
+    isLoggedIn,
+    setIsLoggedIn
+  } = useAuth();
 
   return (
     <>
-      <LeftNavBar/>
-
-      <Routes>
+      <Routes> 
         {/* Public Route */}
-        <Route path="/login" element={<Login onLogin={onLogin} />} />
+        <Route path="/login" element={<Login />} />
 
         {/* Protected layout */}
-        <Route element={<ProtectedRoute user={user} />}>
-          <Route path="/" element={<Home user={user} logout={logout}/> }> 
+        <Route element={<ProtectedRoute user={authUser} />}>
+          <Route path="/" element={<Home user={authUser}/> }> 
             <Route index element={<Dashboard/>} />
             <Route path="/events" element={<Events/> }> </Route>
             <Route path="/contacts" element={<Contacts/> }> </Route>
             <Route path="/profile" element={<Profile/>}> </Route>
-          </Route>          
+          </Route>
         </Route>
         
         <Route path="*" element={<NotFound/> }> </Route>

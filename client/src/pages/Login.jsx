@@ -1,35 +1,33 @@
 import { useState } from "react";
 import { userLogin } from "../services/UserService"
+import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom"
 
-function Login({ onLogin, setUser }) {
+function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+
+  // AuthContext
+  const {authUser,
+    setAuthUser,
+    isLoggedIn,
+    setIsLoggedIn
+  } = useAuth();
 
   function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true)
+    
     const userData = {
       email: email,
       password: password
     }
     userLogin(userData)
-      .then((data) => {
-        if (!data) {
-          setErrors(["Login Failed. Invalid Credentials"])
-          return
-        }
-        const user = {
-          token: data.token,
-          name: data.name,
-          email: data.email,
-          image_url: data.image_url,
-        }
-        onLogin(user)
-      })
-      .catch((error) => setErrors(error))
-      .finally(() => setIsLoading(false))
+      .then((data) => setAuthUser(prev => data))
+      .catch((e) => console.log("Login handleSubmit error: " , e))
+
+    setIsLoggedIn(true)
+    navigate("/")
   }
 
   return (
