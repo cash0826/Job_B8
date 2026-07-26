@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Routes, Route, useNavigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import Dashboard from "./components/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
@@ -8,29 +7,8 @@ import Events from "./pages/Events";
 import Contacts from "./pages/Contacts";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
-import { getJWTUserId } from "./services/UserService";
-import { useAuth } from "./context/AuthContext.jsx";
 
 function App() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    getJWTUserId()
-      .then( (u) => {
-        setAuthUser(u)
-        setIsLoggedIn(true)
-      })
-      .catch(() => {
-        setAuthUser(null)
-        setIsLoggedIn(false)
-      })
-  }, [])
-
-  const {authUser,
-    setAuthUser,
-    isLoggedIn,
-    setIsLoggedIn
-  } = useAuth();
 
   return (
     <>
@@ -39,8 +17,8 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Protected layout */}
-        <Route element={<ProtectedRoute user={authUser} />}>
-          <Route path="/" element={<Home user={authUser}/> }> 
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home /> }> 
             <Route index element={<Dashboard/>} />
             <Route path="/events" element={<Events/> }> </Route>
             <Route path="/contacts" element={<Contacts/> }> </Route>
