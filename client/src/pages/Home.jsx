@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { loadJobs } from "../services/JobService";
 import LeftNavBar from "../components/LeftNavBar";
 
-function Home({ user, logout }) {
+function Home() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
@@ -13,11 +13,13 @@ function Home({ user, logout }) {
   }, []);
 
   return (
-    <main>
+    <div className="bg-sky-50">
       <LeftNavBar/>
-      <h2>Job B8🪱</h2>
-      <Outlet context={{ jobs, user, logout }}/>
-    </main>
+      <main className="flex-1 p-6">
+        <h2>Job B8🪱</h2>
+        <Outlet context={{ jobs }}/>
+      </main>
+    </div>
   )
 }
 
