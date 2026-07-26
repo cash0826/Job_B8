@@ -8,8 +8,11 @@ function Menu() {
 
   return(
     <div className="md:hidden">
-      <button onClick={ () => setOpen(true)} className="p-3">
-        <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor">
+      <button onClick={ () => setOpen(true)} className="
+        fixed bottom-4 left-4 z-50
+        p-3 rounded-full bg-gray-800 text-white
+        shadow-lg hover:bg-gray-700">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
           d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -22,7 +25,7 @@ function Menu() {
       )}
 
       <aside 
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white z-50
+        className={`fixed top-0 left-0 h-full w-20 bg-gray-800 text-white z-50
           transform transition-transform duration-300
           ${open ? "translate-x-0" : "-translate-x-full"}
         `}
@@ -30,10 +33,10 @@ function Menu() {
         <button onClick={ () => setOpen(false)} className="p-3 hover:bg-gray-700">✕</button>
 
         <nav className="mt-6 flex flex-col gap-4 p-3">
-          <NavItem icon={<DashboardIcon />} label="Dashboard" expanded={true} to="/" />
-          <NavItem icon={<EventsIcon />} label="Events" expanded={true} to="/events" />
-          <NavItem icon={<ContactsIcon />} label="Contacts" expanded={true} to="/contacts" />
-          <NavItem icon={<ProfileIcon />} label="Profile" expanded={true} to="/profile" />
+          <NavItem icon={<DashboardIcon />} label="Dashboard" expanded={false} to="/" />
+          <NavItem icon={<EventsIcon />} label="Events" expanded={false} to="/events" />
+          <NavItem icon={<ContactsIcon />} label="Contacts" expanded={false} to="/contacts" />
+          <NavItem icon={<ProfileIcon />} label="Profile" expanded={false} to="/profile" />
         </nav>
       </aside>
     </div>

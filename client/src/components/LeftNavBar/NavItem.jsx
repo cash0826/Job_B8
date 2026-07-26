@@ -6,9 +6,9 @@ function NavItem({ icon, label, expanded, to }) {
     <NavLink
       to={to}
       className={({ isActive }) => `
-        flex p-3 cursor-pointer rounded-md
+        flex cursor-pointer rounded-md
         transition-[width] duration-300 ease-in-out
-        ${expanded ? "justify-start gap-3 w-full" : "justify-center"}
+        ${expanded ? "justify-start gap-3 p-3 w-full pl-6" : "justify-center p-3 w-full"}
 
         ${isActive ? "bg-gray-700 text-white" : "text-gray-300 hover:bg-gray-700"}
       `}
