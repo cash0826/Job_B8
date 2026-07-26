@@ -13,10 +13,14 @@ function Home() {
   }, []);
 
   return (
-    <div className="bg-sky-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <LeftNavBar/>
-      <main className="flex-1 p-6">
-        <h2>Job B8🪱</h2>
+      <header className="w-full border-b bg-white">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <h1 className="text-xl font-semibold text-gray-800">Here's your bait:</h1>
+        </div>
+      </header>
+      <main className="flex-1">
         <Outlet context={{ jobs }}/>
       </main>
     </div>
