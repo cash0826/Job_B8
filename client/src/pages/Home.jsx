@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet } from "react-router-dom";
 import { loadJobs } from "../services/JobService";
-import LeftNavBar from "../components/LeftNavBar";
+import LeftNavBar from "../components/LeftNavBar/LeftNavBar";
 
 function Home() {
   const [jobs, setJobs] = useState([]);

@@ -8,7 +8,7 @@ This application will centralize all of your job applications to a single view, 
 
 **Backend**: Python, Pipenv, Flask, Flask-Migrate, Flask-Restful, Flask-Bcrypt, Flask-SQLAlchemy, Flask-JWT-Extended, Bcrypt, Marshmallow, Faker
 
-**Frontend**: JavaScript, Node.js, React, React Router
+**Frontend**: JavaScript, Node.js, Vite, React, React Router, eslint, Tailwind CSS,  
 
 ### API (if used)
 
