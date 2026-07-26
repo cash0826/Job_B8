@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Load jobs
 export async function loadJobs() {
-  const url = `${BASE_URL}/jobs`
+  const url = `${BASE_URL}/api/jobs`
 
   try {
     const response = await fetch(url, {

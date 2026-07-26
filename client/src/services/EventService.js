@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Load events
 export async function loadEvents() {
-  const url = `${BASE_URL}/events`
+  const url = `${BASE_URL}/api/events`
 
   try {
     const response = await fetch(url, {

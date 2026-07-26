@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Load Contacts
 export async function loadContacts() {
-  const url = `${BASE_URL}/contacts`
+  const url = `${BASE_URL}/api/contacts`
 
   try {
     const response = await fetch(url, {

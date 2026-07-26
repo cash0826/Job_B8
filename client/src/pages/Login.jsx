@@ -1,63 +1,38 @@
 import { useState } from "react";
 import { userLogin } from "../services/UserService"
+import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom"
 
-function Login({onLogin}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-  function handleSubmit(e) {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true)
-    const userData = {
-      email: email,
-      password: password
+
+    try {
+      await login({ email, password })
+      navigate("/");
+    } catch (error) {
+      console.log("Login error: ", error)
     }
-    userLogin(userData)
-      .then((data) => {
-        if (!data) {
-          setErrors(["Login Failed. Invalid Credentials"])
-          return
-        }
-        const user = {
-          "user": data.user,
-          "name": data.name,
-          "token": data.token,
-          "email": data.email,
-          "image_url": data.image_url
-        }
-        onLogin(user)
-      })
-      .catch((error) => setErrors(error))
-      .finally(() => setIsLoading(false))
   }
 
   return (
     <div className="login-page">
       <h3>Job B8🪱:</h3>
       <form className="login-form" onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          className="form-input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          className="form-input"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="submit"
-          value="Login"
-          className="form-submit"
-        />
+
+        <label>Email</label>
+        <input value={email} type="email" onChange={(e) => setEmail(e.target.value)}/>
+
+        <label>Password</label>
+        <input value={password} type="password" onChange={(e) => setPassword(e.target.value)}/>
+
+        <input type="submit" value="Login"/>
       </form>
     </div>
   )
