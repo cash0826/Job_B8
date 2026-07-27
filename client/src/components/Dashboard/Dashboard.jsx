@@ -2,8 +2,6 @@ import Overview from "./Overview";
 import JobList from "./JobList";
 
 function Dashboard() {
-  // const {jobs} = useOutletContext();
-  // // const sortedJobs = filter(jobs)
 
   return (
     <section className="w-full">

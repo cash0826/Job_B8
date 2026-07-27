@@ -13,16 +13,22 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex">
       <LeftNavBar/>
-      <header className="w-full border-b bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <h1 className="text-xl font-semibold text-gray-800">Here's your bait:</h1>
-        </div>
-      </header>
-      <main className="flex-1">
-        <Outlet context={{ jobs }}/>
-      </main>
+
+      {/* Right side, stacked content for Dashboard */}
+      <div className="flex-1 flex flex-col max-w-full">
+        <header className="w-full border-b bg-white">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <h1 className="text-xl font-semibold text-gray-800">Job B8</h1>
+          </div>
+        </header>
+        <main className="flex-1">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            <Outlet context={{ jobs, setJobs }} />
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
