@@ -31,7 +31,7 @@ class Signup(Resource):
     try:
       db.session.add(user)
       db.session.commit()
-      access_token = create_access_token(identity=(user.id))
+      access_token = create_access_token(identity=str(user.id))
       return {
         "token": access_token, 
         "user": user_schema.dump(user) 
@@ -62,7 +62,7 @@ class Login(Resource):
     
     user = User.query.filter_by(email=email).first()
     if user and user.authenticate(password):
-      token = create_access_token(identity=(user.id))
+      token = create_access_token(identity=str(user.id))
       return {
         "token": token, 
         "user": user_schema.dump(user)        

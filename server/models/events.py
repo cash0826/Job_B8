@@ -1,5 +1,5 @@
 from config import db
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 class Event(db.Model):
   __tablename__ = "events"
@@ -18,8 +18,8 @@ class Event(db.Model):
   
 class EventSchema(Schema):
   id = fields.Int()
-  event = fields.Str(load_default="Saved", dump_default="Saved")
-  scheduled_time = fields.DateTime()
+  event = fields.Str(required=True, validate=validate.Length(min=1))
+  scheduled_time = fields.DateTime(required=True)
   notes = fields.Str()
   
   job = fields.Nested("JobSchema", exclude=("events",))

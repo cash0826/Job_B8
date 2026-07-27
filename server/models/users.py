@@ -2,7 +2,7 @@ from config import db, bcrypt
 from datetime import datetime
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 class User(db.Model):
   __tablename__ = "users"
@@ -41,8 +41,8 @@ class User(db.Model):
   
 class UserSchema(Schema):
   id = fields.Int()
-  name = fields.String()
-  email = fields.String()
-  image_url = fields.String()
+  name = fields.String(required=True, validate=validate.Length(min=1))
+  email = fields.String(required=True, validate=validate.Length(min=1))
+  image_url = fields.String(required=False, validate=validate.Length(min=1))
   
   jobs = fields.List(fields.Nested("JobSchema", exclude=('user',)))

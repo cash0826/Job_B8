@@ -9,19 +9,19 @@ api.add_resource(CheckJWTId, '/api/checkjwtid')
 api.add_resource(Login, '/api/login')
 
 #  Jobs
-api.add_resource(JobDashboard, '/api/jobs')
+api.add_resource(JobDashboard, '/api/jobs', '/api/jobs/<int:id>')
 
 # Events
 api.add_resource(Events, '/api/events')
-api.add_resource(JobEvents, '/api/jobs/<int:job_id>/events')
+api.add_resource(JobEvents, '/api/jobs/<int:job_id>/events', '/api/jobs/<int:job_id>/events/<int:event_id>')
 
 # Contacts
 api.add_resource(Contacts, '/api/contacts')
-api.add_resource(JobContacts, '/api/jobs/<int:job_id>/contacts')
+api.add_resource(JobContacts, '/api/jobs/<int:job_id>/contacts', '/api/jobs/<int:job_id>/contacts/<int:contact_id>')
 
 # Documents
 api.add_resource(Documents, '/api/documents')
-api.add_resource(JobDocuments, '/api/jobs/<int:job_id>/documents')
+api.add_resource(JobDocuments, '/api/jobs/<int:job_id>/documents', '/api/jobs/<int:job_id>/documents/<int:document_id>')
 
 # Catch All
 @app.route('/', defaults={'path': ''})

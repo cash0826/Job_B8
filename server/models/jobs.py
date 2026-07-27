@@ -1,5 +1,6 @@
 from config import db
-from marshmallow import Schema, fields, ValidationError
+from datetime import datetime
+from marshmallow import Schema, fields, ValidationError, validate
 from .enums import JobStatus
 from sqlalchemy.orm import validates
 
@@ -8,17 +9,24 @@ class Job(db.Model):
   __table_args__ = {'extend_existing': True}
   
   id = db.Column(db.Integer, primary_key=True)
+  created_at = db.Column(db.DateTime, default=datetime.now)
   title = db.Column(db.String, nullable=False)
   company = db.Column(db.String, nullable=False)
-  location = db.Column(db.String)
-  url = db.Column(db.String)
+  location = db.Column(db.String, nullable=False)
+  url = db.Column(db.String, nullable=False)
   description = db.Column(db.Text)
   status = db.Column(
     db.Enum(JobStatus),
     nullable=False,
     default=JobStatus.SAVED
   )
-  
+
+  @validates("title", "company", "location", "url")
+  def validate_non_empty(self, key, value):
+      if value is None or not value.strip():
+          raise ValueError(f"{key} cannot be empty.")
+      return value
+        
   # Foreign key to join Users table (Users.id)
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   
@@ -57,12 +65,12 @@ def status_validator(value):
 # Serialization/Deserialization
 class JobSchema(Schema):
   id = fields.Int()
-  title = fields.Str()
-  company = fields.Str()
-  location = fields.Str()
-  url = fields.Url()
-  description = fields.Str()
-  status = fields.Enum(JobStatus, by_value=True)
+  title = fields.Str(required=True, validate=validate.Length(min=1))
+  company = fields.Str(required=True, validate=validate.Length(min=1))
+  location = fields.Str(required=True, validate=validate.Length(min=1))
+  url = fields.Url(required=True, validate=validate.Length(min=1))
+  description = fields.Str(required=False, validate=validate.Length(min=1))
+  status = fields.Enum(JobStatus, by_value=True, load_default="Saved", dump_default="Saved")
   
   user = fields.Nested("UserSchema", exclude=("jobs",))
 
