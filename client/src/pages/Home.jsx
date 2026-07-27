@@ -8,8 +8,8 @@ function Home() {
 
   useEffect(() => {
     loadJobs()
-      .then( (data) => setJobs(existing => data ) )
-      .catch( (error) => console.log("Error retrieving jobs: ", error))
+      .then((data) => setJobs(data))
+      .catch((error) => console.log("Error retrieving jobs: ", error))
   }, []);
 
   return (

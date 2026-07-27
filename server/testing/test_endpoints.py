@@ -2,6 +2,7 @@ from datetime import datetime
 from flask_jwt_extended import decode_token
 
 from models.users import User
+from models.jobs import Job
 from config import db
 
 
@@ -121,6 +122,34 @@ def test_job_requires_authentication(app_client):
     response = app_client.get('/jobs')
     assert response.status_code == 401
     assert response.is_json
+
+
+def test_job_user_id_is_stored_as_integer(app_client):
+    signup_payload = {
+        'name': 'Integer User',
+        'email': 'integer@example.com',
+        'password': 'password123',
+    }
+    signup_response = app_client.post('/api/signup', json=signup_payload)
+    token = signup_response.get_json()['token']
+    headers = {'Authorization': f'Bearer {token}'}
+
+    job_payload = {
+        'title': 'Data Engineer',
+        'company': 'Acme Co',
+        'location': 'Remote',
+        'url': 'https://acme.example.com/jobs/2',
+        'description': 'Build data pipelines',
+    }
+
+    create_response = app_client.post('/api/jobs', headers=headers, json=job_payload)
+    assert create_response.status_code == 201
+
+    with app_client.application.app_context():
+        created_job = Job.query.filter_by(title='Data Engineer').first()
+        assert created_job is not None
+        assert created_job.user_id == 1
+        assert isinstance(created_job.user_id, int)
 
 
 def test_checkjwtid_returns_current_user(app_client):
