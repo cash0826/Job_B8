@@ -28,15 +28,27 @@ function JobList() {
   }
 
   return (
-    <div className="space-y-4">
-      {jobs.map(job => (
-        <JobListItem
-          key={job.id}
-          job={job}
-          onStatusChange={handleStatusChange}
-        />
-      ))}
+    <div>
+      <div className="grid grid-cols-4 md:grid-cols-6 gap-4 bg-gray-100 border-b border-gray-300 rounded-t-lg">
+        <h3 className="font-semibold text-gray-700 text-left">Role/Title</h3>
+        <h3 className="font-semibold text-gray-700 text-left">Company</h3>
+        <h3 className="font-semibold text-gray-700 text-left">Location</h3>
+        <h3 className="hidden md:block font-semibold text-gray-700 text-left">Description</h3>
+        <h3 className="font-semibold text-gray-700 text-left">Status</h3>
+      </div>
+
+      <div className="">
+        {jobs.map(job => (
+          <JobListItem
+            key={job.id}
+            job={job}
+            onStatusChange={handleStatusChange}
+          />
+        ))}
+      </div>
+
     </div>
+
   )
 }
 

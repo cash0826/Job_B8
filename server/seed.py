@@ -34,12 +34,14 @@ with app.app_context():
   print("Creating 20 test job postings...")  
   jobs = []
   for i in range(20):
+    job_status = choice(['SAVED', 'APPLIED', 'NOT_SELECTED', 'ASSESSMENT', 'INTERVIEWING', 'JOB_OFFER'])
     job = Job(
       title=fake.job(),
       company=fake.company(),
       location=fake.city(),
       url=fake.url(),
-      description=fake.paragraph(nb_sentences=2)
+      description=fake.paragraph(nb_sentences=2),
+      status=job_status
     )
     job.user = choice(users)
     jobs.append(job)
@@ -74,7 +76,7 @@ with app.app_context():
     event = Event(
       event=event_type,
       scheduled_time=fake.future_datetime(),
-      notes = notes
+      notes=notes
     )
     event.job = choice(jobs)
     events.append(event)
