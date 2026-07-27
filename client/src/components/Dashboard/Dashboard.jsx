@@ -3,17 +3,27 @@ import JobList from "./JobList";
 
 function Dashboard() {
 
+  // Possible Search to Add if time provided
+
   return (
     <section className="w-full">
-      <h2 className="text-lg font-bold text-gray-800 mb-6">Dashboard</h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="flex justify-center p-3">
         <Overview/>
       </div>
 
-      <div className="bg-white shadow-sm rounded-lg p-6 md:col-span-2 xl:col-span-1">
+      <div className="grid grid-cols-6 gap-4 px-6 py-3 bg-gray-100 border-b border-gray-300 rounded-t-lg">
+        <h3 className="font-semibold text-gray-700">Status</h3>
+        <h3 className="font-semibold text-gray-700">Title</h3>
+        <h3 className="font-semibold text-gray-700">Company</h3>
+        <h3 className="font-semibold text-gray-700">Location</h3>
+        <h3 className="font-semibold text-gray-700">Description</h3>
+        <h3 className="font-semibold text-gray-700">Actions</h3>
+      </div>
+
+      <div className="bg-white shadow-sm rounded-lg p-6 flex justify-center">
         <JobList/>
       </div>
+
     </section>
   )
 }

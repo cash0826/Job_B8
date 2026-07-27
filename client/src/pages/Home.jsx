@@ -18,13 +18,11 @@ function Home() {
 
       {/* Right side, stacked content for Dashboard */}
       <div className="flex-1 flex flex-col max-w-full">
-        <header className="w-full border-b bg-white">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <h1 className="text-xl font-semibold text-gray-800">Job B8</h1>
-          </div>
+        <header className="w-full p-3 bg-gray-50 shadow-sm sticky top-0 z-10">
+          <h1 className="text-4xl font-semibold leading-tight text-gray-800">Job B8</h1>
         </header>
         <main className="flex-1">
-          <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="max-w-7xl mx-auto px-2 py-2">
             <Outlet context={{ jobs, setJobs }} />
           </div>
         </main>

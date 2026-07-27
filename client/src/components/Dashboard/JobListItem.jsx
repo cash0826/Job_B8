@@ -2,21 +2,17 @@ import { jobStatus } from "./jobStatus.js"
 
 function JobListItem({ job, onStatusChange }) {
   return (
-    <div className="p-4 border rounded-lg bg-white shadow-sm">
-      <h4 className="font-semibold text-gray-800">{job.title}</h4>
-      <p className="text-sm text-gray-500">{job.company}</p>
+    <div className="grid grid-cols-6 gap-4 px-6 py-4 border-b border-gray-200 hover:bg-gray-50">
+      <span className="text-gray-800">{job.status}</span>
+      <span className="text-gray-800">{job.title}</span>
+      <span className="text-gray-800">{job.company}</span>
+      <span className="text-gray-800">{job.location}</span>
+      <span className="text-gray-800 truncate">{job.description}</span>
 
-      <select
-        className="mt-3 border rounded px-2 py-1 text-sm"
-        value={job.status}
-        onChange={(e) => onStatusChange(job.id, e.target.value)}
-      >
-        {Object.values(jobStatus).map((status) => (
-          <option key={status} value={status}>
-            {status.replace("_", " ")}
-          </option>
-        ))}
-      </select>
+      <div className="flex gap-2">
+        <button className="text-blue-600 hover:underline">Edit</button>
+        <button className="text-red-600 hover:underline">Delete</button>
+      </div>
     </div>
   )
 }
