@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom"
 import { addJob } from "../../services/JobService";
+import { PlusIcon, BriefcaseIcon } from "@heroicons/react/24/solid";
 
 function AddJobForm() {
   const { jobs, setJobs } = useOutletContext();
@@ -46,7 +47,7 @@ function AddJobForm() {
           cursor-pointer rounded-md 
           bg-white border border-gray-300 hover:bg-sky-100"
         >
-          Save a New Job
+          {<PlusIcon className="w-6 h-6"/>}{<BriefcaseIcon className="w-6 h-6"/>}
         </button>
       )}
 
