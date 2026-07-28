@@ -15,7 +15,7 @@ class JobDashboard(Resource):
   # GET /jobs
   @jwt_required()
   def get(self):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # Pagination
     page = request.args.get('page', 1, type=int)
@@ -35,12 +35,12 @@ class JobDashboard(Resource):
   # POST /jobs
   @jwt_required()
   def post(self):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     try:
-      # Validates status from endpoint layer or returns 'None'
+      # Validates status from endpoint layer or defaults to Saved
       status_value = data.get('status')
-      job_status = JobStatus(status_value) if status_value else None
+      job_status = JobStatus(status_value) if status_value else JobStatus.SAVED
       job = Job(
         title=data.get('title'),
         company=data.get('company'),
@@ -60,13 +60,18 @@ class JobDashboard(Resource):
   # PATCH /jobs/<id>
   @jwt_required()
   def patch(self, id):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     job = Job.query.filter_by(id=id, user_id=user_id).first()
     
     if not job:
       return {'errors': ['404 Job not found']}, 404
     for key, value in data.items():
+      if key == "status":
+        try:
+            value = JobStatus(value)  # convert string → enum
+        except ValueError:
+            return {'errors': [f"Invalid status: {value}"]}, 400
       setattr(job, key, value)
     try:
       db.session.commit()
@@ -78,7 +83,7 @@ class JobDashboard(Resource):
   # DELETE /jobs/<id>
   @jwt_required()
   def delete(self, id):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     job = Job.query.filter_by(id=id, user_id=user_id).first()
     
     if not job:

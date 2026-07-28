@@ -34,6 +34,9 @@ This application will centralize all of your job applications to a single view, 
 
 ## Known Challenges or Limitations
 
+Pending items
+- Helpful UI/UX messaging for successful/unsuccessful POST/PATCH/DELETE requests
+
 ## Deployment Link
 
 ## Acknowledgements

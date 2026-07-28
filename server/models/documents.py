@@ -1,5 +1,5 @@
 from config import db
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 class Document(db.Model):
   __tablename__ = "documents"
@@ -16,6 +16,6 @@ class Document(db.Model):
   
 class DocumentSchema(Schema):
   id = fields.Int()
-  type = fields.Str()
+  type = fields.Str(required=True, validate=validate.Length(min=1))
   
   job = fields.Nested('JobSchema', exclude=('documents',))

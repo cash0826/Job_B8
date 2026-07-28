@@ -1,5 +1,6 @@
 import Overview from "./Overview";
 import JobList from "./JobList";
+import AddJobForm from "./AddJobForm";
 
 function Dashboard() {
 
@@ -7,11 +8,15 @@ function Dashboard() {
 
   return (
     <section>
-      <div className="flex justify-center p-3">
+      <div className="flex justify-center">
         <Overview/>
       </div>
+      
+      <div className="bg-white shadow-sm rounded-lg flex justify-center">
+        <AddJobForm/>
+      </div>
 
-      <div className="bg-white shadow-sm rounded-lg p-6 flex justify-center">
+      <div className="bg-white shadow-sm rounded-lg p-3 flex justify-center">
         <JobList/>
       </div>
 
