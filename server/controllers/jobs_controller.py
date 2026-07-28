@@ -67,6 +67,11 @@ class JobDashboard(Resource):
     if not job:
       return {'errors': ['404 Job not found']}, 404
     for key, value in data.items():
+      if key == "status":
+        try:
+            value = JobStatus(value)  # convert string → enum
+        except ValueError:
+            return {'errors': [f"Invalid status: {value}"]}, 400
       setattr(job, key, value)
     try:
       db.session.commit()

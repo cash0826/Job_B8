@@ -38,16 +38,16 @@ export async function addJob(newJobData) {
 }
 
 // Update job
-export async function updateJob(updatedJob) {
-  if (updatedJob) {
-    const url = `${BASE_URL}/api/jobs`
+export async function updateJob(id, jobData) {
+  if (id) {
+    const url = `${BASE_URL}/api/jobs/${id}`
     const response = await fetch(url, {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem("token")}`
       },
-      body: JSON.stringify(updatedJob)
+      body: JSON.stringify(jobData)
     });
     if (response.ok) {
       const data = await response.json();
