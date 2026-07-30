@@ -4,9 +4,13 @@ import KPICard from "./KPICard";
 function Overview() {
   const { jobs } = useOutletContext();
 
+  const totalJobs = jobs.length
+  const savedJobs = jobs.filter(j => j.status === "Saved").length
+  const appliedJobs = totalJobs - savedJobs
+
   const stats = [
-    { label: "Total Jobs", value: jobs.length },
-    { label: "Applied", value: jobs.filter(j => j.status === "Applied").length },
+    { label: "Total Jobs", value: totalJobs },
+    { label: "Applied", value: appliedJobs },
     { label: "Interviewing", value: jobs.filter(j => j.status === "Interviewing").length },
     { label: "Job Offer",  value: jobs.filter(j => j.status === "Job Offer").length },
   ]
