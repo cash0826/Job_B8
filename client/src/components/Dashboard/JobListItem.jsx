@@ -1,23 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useOutletContext } from "react-router-dom"
 import { updateJob, deleteJob } from "../../services/JobService";
-
-// Valid transitions
-const transitions = {
-  Saved: ["Applied"],
-  Applied: ["Assessment", "Interviewing", "Not Selected"],
-  Assessment: ["Interviewing", "Not Selected"],
-  Interviewing: ["Assessment", "Job Offer", "Not Selected"],
-  Job_Offer: [],
-  Not_Selected: []
-};
+import { transitions } from "./transitions.js"
 
 function JobListItem({ job }) {
   const { jobs, setJobs } = useOutletContext();
   const [openStatus, setOpenStatus] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [updated, setUpdated] = useState(false);
-
   const statusRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -36,6 +26,7 @@ function JobListItem({ job }) {
   })
 
   async function handleStatusChange(newStatus) {
+    console.log("Sending status:", newStatus)
     try {
       const updatedJob = await updateJob(job.id, { status: newStatus });
 

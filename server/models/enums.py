@@ -15,7 +15,7 @@ class JobStatus(Enum):
     return {
       cls.SAVED: {cls.APPLIED},
       cls.APPLIED: {cls.ASSESSMENT, cls.INTERVIEWING, cls.NOT_SELECTED},
-      cls.ASSESSMENT: {cls.INTERVIEWING, cls.NOT_SELECTED},
+      cls.ASSESSMENT: {cls.INTERVIEWING, cls.JOB_OFFER, cls.NOT_SELECTED},
       cls.INTERVIEWING: {cls.ASSESSMENT, cls.JOB_OFFER, cls.NOT_SELECTED},
       cls.JOB_OFFER: set(), # terminal state
       cls.NOT_SELECTED: set(), # terminal state
