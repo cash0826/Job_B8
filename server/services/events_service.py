@@ -5,7 +5,7 @@ from config import db
 from models.jobs import Job
 from models.events import Event
 
-# Services controls SQL queries, commits and rollbacks
+# Services controls SQL queries, commits and db rollbacks
 # Services controls ownership logic, nested validation and try/except blocks
 
 class EventService:
@@ -35,7 +35,14 @@ class EventService:
     
     if 'scheduled_time' in data and isinstance(data['scheduled_time'], str):
       data['scheduled_time'] = datetime.fromisoformat(data['scheduled_time'])
-    event = Event(job_id=job_id, **data)
+
+    event = Event(
+      event=data.get('event'),
+      scheduled_time=data.get('scheduled_time'),
+      notes=data.get('notes'),
+      job_id=job.id
+    )
+    
     try:
       db.session.add(event)
       db.session.commit()
