@@ -47,7 +47,7 @@ class Contacts(Resource):
       return {'errors': ['404 Job not found']}, 404
     if error == "invalid_data":
       return {'errors': ['400 Invalid data']}, 400
-    return contact_schema_dump(contact), 201
+    return contact_schema.dump(contact), 201
   
   # PATCH /contacts/<id>
   @jwt_required()

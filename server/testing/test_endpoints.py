@@ -170,30 +170,31 @@ def test_contacts_endpoints_work_for_job(app_client):
     contact_payload = {
         'name': 'Jane Doe',
         'email': 'jane.doe@example.com',
+        'job_id': job['id'],
     }
-    create_response = app_client.post(f"/api/jobs/{job['id']}/contacts", headers=headers, json=contact_payload)
+    create_response = app_client.post(f"/api/contacts", headers=headers, json=contact_payload)
     assert create_response.status_code == 201
     created_contact = create_response.get_json()
     assert created_contact['name'] == 'Jane Doe'
     assert created_contact['email'] == 'jane.doe@example.com'
 
-    job_contacts_response = app_client.get(f"/api/jobs/{job['id']}/contacts", headers=headers)
+    job_contacts_response = app_client.get(f"/api/contacts", headers=headers)
     assert job_contacts_response.status_code == 200
-    assert job_contacts_response.get_json()[0]['name'] == 'Jane Doe'
+    assert job_contacts_response.get_json()['contacts'][0]['name'] == 'Jane Doe'
 
     contacts_index_response = app_client.get('/api/contacts', headers=headers)
     assert contacts_index_response.status_code == 200
     assert contacts_index_response.get_json()['total'] == 1
 
     patch_response = app_client.patch(
-        f"/api/jobs/{job['id']}/contacts/{created_contact['id']}",
+        f"/api/contacts/{created_contact['id']}",
         headers=headers,
         json={'name': 'Jane Smith'}
     )
-    assert patch_response.status_code == 200
+    assert patch_response.status_code == 201
     assert patch_response.get_json()['name'] == 'Jane Smith'
 
-    delete_response = app_client.delete(f"/api/jobs/{job['id']}/contacts/{created_contact['id']}", headers=headers)
+    delete_response = app_client.delete(f"/api/contacts/{created_contact['id']}", headers=headers)
     assert delete_response.status_code == 200
     assert delete_response.get_json() == {'message': 'Contact deleted successfully'}
 
@@ -206,30 +207,31 @@ def test_events_endpoints_work_for_job(app_client):
         'event': 'Interview',
         'scheduled_time': datetime(2026, 7, 16, 15, 0).isoformat(),
         'notes': 'Bring portfolio',
+        'job_id': job['id'],
     }
-    create_response = app_client.post(f"/api/jobs/{job['id']}/events", headers=headers, json=event_payload)
+    create_response = app_client.post(f"/api/events", headers=headers, json=event_payload)
     assert create_response.status_code == 201
     created_event = create_response.get_json()
     assert created_event['event'] == 'Interview'
     assert created_event['notes'] == 'Bring portfolio'
 
-    job_events_response = app_client.get(f"/api/jobs/{job['id']}/events", headers=headers)
+    job_events_response = app_client.get(f"/api/events", headers=headers)
     assert job_events_response.status_code == 200
-    assert job_events_response.get_json()[0]['event'] == 'Interview'
+    assert job_events_response.get_json()['events'][0]['event'] == 'Interview'
 
     events_index_response = app_client.get('/api/events', headers=headers)
     assert events_index_response.status_code == 200
     assert events_index_response.get_json()['total'] == 1
 
     patch_response = app_client.patch(
-        f"/api/jobs/{job['id']}/events/{created_event['id']}",
+        f"/api/events/{created_event['id']}",
         headers=headers,
         json={'notes': 'Bring portfolio and slides'}
     )
-    assert patch_response.status_code == 200
+    assert patch_response.status_code == 201
     assert patch_response.get_json()['notes'] == 'Bring portfolio and slides'
 
-    delete_response = app_client.delete(f"/api/jobs/{job['id']}/events/{created_event['id']}", headers=headers)
+    delete_response = app_client.delete(f"/api/events/{created_event['id']}", headers=headers)
     assert delete_response.status_code == 200
     assert delete_response.get_json() == {'message': 'Event deleted successfully'}
 
@@ -238,28 +240,31 @@ def test_documents_endpoints_work_for_job(app_client):
     headers = authorize_user(app_client, email='documents@example.com', name='Document User')
     job = create_job(app_client, headers)
 
-    document_payload = {'type': 'Resume'}
-    create_response = app_client.post(f"/api/jobs/{job['id']}/documents", headers=headers, json=document_payload)
+    document_payload = {
+        'type': 'Resume',
+        'job_id': job['id'],
+    }
+    create_response = app_client.post(f"/api/documents", headers=headers, json=document_payload)
     assert create_response.status_code == 201
     created_document = create_response.get_json()
     assert created_document['type'] == 'Resume'
 
-    job_documents_response = app_client.get(f"/api/jobs/{job['id']}/documents", headers=headers)
+    job_documents_response = app_client.get(f"/api/documents", headers=headers)
     assert job_documents_response.status_code == 200
-    assert job_documents_response.get_json()[0]['type'] == 'Resume'
+    assert job_documents_response.get_json()['documents'][0]['type'] == 'Resume'
 
     documents_index_response = app_client.get('/api/documents', headers=headers)
     assert documents_index_response.status_code == 200
     assert documents_index_response.get_json()['total'] == 1
 
     patch_response = app_client.patch(
-        f"/api/jobs/{job['id']}/documents/{created_document['id']}",
+        f"/api/documents/{created_document['id']}",
         headers=headers,
         json={'type': 'Cover Letter'}
     )
-    assert patch_response.status_code == 200
+    assert patch_response.status_code == 201
     assert patch_response.get_json()['type'] == 'Cover Letter'
 
-    delete_response = app_client.delete(f"/api/jobs/{job['id']}/documents/{created_document['id']}", headers=headers)
+    delete_response = app_client.delete(f"/api/documents/{created_document['id']}", headers=headers)
     assert delete_response.status_code == 200
     assert delete_response.get_json() == {'message': 'Document deleted successfully'}
