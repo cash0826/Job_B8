@@ -43,7 +43,7 @@ function EventGrid({ events, setEvents, ...props }) {
                 key={event.id}
                 className="bg-white shadow-sm rounded-lg p-4 border hover:shadow-md transition"
               >
-                <EventListItem event={event} />
+                <EventListItem event={event} setEvents={setEvents} />
               </div>
             ))}
           </div>

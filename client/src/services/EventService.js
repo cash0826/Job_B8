@@ -61,7 +61,7 @@ export async function updateEvent(id, eventData) {
 // Delete event
 export async function deleteEvent(id) {
   if (id) {
-    const url = `${BASE_URL}/apt/events/${id}`
+    const url = `${BASE_URL}/api/events/${id}`
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
