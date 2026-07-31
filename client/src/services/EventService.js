@@ -32,7 +32,7 @@ export async function addEvent(newEventdata) {
       const data = await response.json();
       return data
     }
-    throw new Error(`adding new event ${response.statusText}`);
+    throw new Error(`adding new event: ${response.statusText}`);
     return null
   }
 }
@@ -73,7 +73,7 @@ export async function deleteEvent(id) {
       console.log(response.statusText)
       return null
     }
-    throw new Error(`deleting event:  ${response.statusText}`);
+    throw new Error(`deleting event: ${response.statusText}`);
     return null
   }
 }
