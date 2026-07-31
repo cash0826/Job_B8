@@ -26,7 +26,7 @@ function Events() {
 
   return (
     <>
-      <EventGrid events={events}/>
+      <EventGrid events={events} setEvents={setEvents}/>
     </>
   );
 }

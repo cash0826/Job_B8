@@ -22,7 +22,7 @@ function Home() {
           <h1 className="text-4xl font-semibold leading-tight text-gray-800">Job B8</h1>
         </header>
         <main >
-          <div className="px-2 py-2">
+          <div className="p-2">
             <Outlet context={{ jobs, setJobs }} />
           </div>
         </main>

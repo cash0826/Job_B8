@@ -1,4 +1,5 @@
 import EventListItem from "./EventListItem";
+import AddEventForm from "./AddEventForm";
 import { formatEventDate } from "../../utils/date";
 
 function groupEventsByMonth(events) {
@@ -18,7 +19,7 @@ function groupEventsByMonth(events) {
   return groups;
 }
 
-function EventGrid({ events }) {
+function EventGrid({ events, setEvents, ...props }) {
   const sortedEvents = [...events].sort(
     (a, b) => new Date(a.scheduled_time) - new Date(b.scheduled_time)
   );
@@ -45,6 +46,12 @@ function EventGrid({ events }) {
                 <EventListItem event={event} />
               </div>
             ))}
+          </div>
+          {/* Event Form */}
+          <div>
+            <div className="bg-white shadow-sm rounded-lg flex justify-center">
+              <AddEventForm events={events} setEvents={setEvents}/>
+            </div>
           </div>
         </section>
       ))}

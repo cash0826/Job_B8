@@ -36,7 +36,11 @@ This application will centralize all of your job applications to a single view, 
 
 - No Signup form and page developed (as recommended).
 - No external API incorporated. It was discussed that an external API like LinkedIn or Monster could help add jobs to the job board. This was an optional feature and unfortunately time ran out.
-- Documents was not added as part of the front end. It was developed in the backend only but not part of Minimum Viable Product. 
+- Documents was not added as part of the front end. It was developed in the backend only. 
+- Calendar for Events was not developed.
+
+## Other small features pending to include
+- When job status is "Not Selected" remove from dashboard, but keep in backend.
 
 ## Deployment Link
 - App not deployed yet

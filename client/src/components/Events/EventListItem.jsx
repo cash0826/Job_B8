@@ -7,7 +7,7 @@ function EventListItem({ event }) {
 
   return (
     <div>
-      <div className="flex items-center justify-around mb-1">
+      <div className="flex items-center gap-3 justify-center mb-1 p">
         <h3 className="text-lg font-bold text-gray-700">
           {event.event} | {event.job.company} | {event.job.title}
         </h3>

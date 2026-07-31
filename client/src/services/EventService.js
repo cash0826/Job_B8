@@ -18,7 +18,7 @@ export async function loadEvents() {
 
 // Add event
 export async function addEvent(newEventdata) {
-  if (newJobData) {
+  if (newEventdata) {
     const url = `${BASE_URL}/api/events`
     const response = await fetch(url, {
       method: "POST",
@@ -73,7 +73,7 @@ export async function deleteEvent(id) {
       console.log(response.statusText)
       return null
     }
-    throw new Error(`deleting job:  ${response.statusText}`);
+    throw new Error(`deleting event:  ${response.statusText}`);
     return null
   }
 }
