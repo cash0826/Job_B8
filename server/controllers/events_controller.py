@@ -32,68 +32,46 @@ class Events(Resource):
       "pages": events.pages,
       "current_page": events.page
     }, 200
-
-class JobEvents(Resource):
-
-  # GET /jobs/<job_id>/events
-  @jwt_required()
-  def get(self, job_id):    
-    job = EventService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
     
-    events = Event.query.filter_by(job_id=job.id).all()
-    return events_schema.dump(events), 200
-  
-  # POST /jobs/<id>/events
+  # POST /events
   @jwt_required()
-  def post(self, job_id):
+  def post(self):
     data = request.get_json()
     if not data:
       abort(400, description="Missing JSON data")
-    
-    event, error = EventService.create_event(job_id, data)
+          
+    job_id = data.get('job_id')
+    event, error = EventService.create_event(job_id=job_id, data=data)
     
     if error == "job_not_found":
       return {'errors': ['404 Job not found']}, 404
     if error == "invalid_data":
       return {'errors': ['400 Invalid data']}, 400
     return event_schema.dump(event), 201
-    
-  # PATCH /jobs/<job_id>/events/<event_id>
+  
+  # PATCH /events/<id>
   @jwt_required()
-  def patch(self, job_id, event_id):
+  def patch(self, id):
     data = request.get_json()
     if not data:
       abort(400, description="Missing JSON data")
     
-    # Validate job owner
-    job = EventService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
+    event, error = EventService.update_event(event_id=id, data=data)
     
-    # Validate event belongs to job
-    event = EventService.get_event_for_job(event_id, job_id)
-    if not event:
+    if error == "event_not_found":
       return {'errors': ['404 Event not found']}, 404
-    
-    # Update Event
-    updated_event = EventService.update_event(event, data)
-    if not updated_event:
-      return {'errors': ['400 Invalid data']}, 400
-    return event_schema.dump(updated_event), 200
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400
+    return event_schema.dump(event), 201
   
-  # DELETE /jobs/<job_id>/events/<event_id>
+  # DELETE /events/<id>
   @jwt_required()
-  def delete(self, job_id, event_id):
-    job = EventService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
+  def delete(self, id):
+    event, error = EventService.delete_event(event_id=id)
     
-    event = EventService.get_event_for_job(event_id, job_id)
-    if not event: 
+    if error == "event_not_found":
       return {'errors': ['404 Event not found']}, 404
-    
-    if not EventService.delete_event(event):
-      return {'errors': ['400 Could not delete event']}, 400
-    return {'message': 'Event deleted successfully'}, 200
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400
+    if event:
+      return {'message': 'Event deleted successfully'}, 200

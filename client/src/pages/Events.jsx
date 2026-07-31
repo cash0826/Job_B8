@@ -1,34 +1,34 @@
 import { useState, useEffect } from 'react';
 import { loadEvents } from "../services/EventService";
-import EventListItem from "../components/EventListItem";
+import EventGrid from "../components/Events/EventGrid";
 
 function Events() {
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect( () => {
+  useEffect(() => {
     loadEvents()
-      .then( (data) => setEvents(existing => data) )
-      .catch( (error) => console.log("Error retrieving events: ", error))
+      .then(data => {
+        setEvents(data || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error retrieving events:", err);
+        setError("Unable to load events.");
+        setLoading(false);
+      });
   }, []);
 
-  if (events.message) {
-    return <p>{events.message}</p>
-  }
-
-  if (events.length === 0) {
-    return <p>Loading Events...</p>
-  }
+  if (loading) return <p>Loading Events...</p>;
+  if (error) return <p> {error} </p>;
+  if (events.message) return <p> {events.message} </p>;
 
   return (
-    <div className="event-list">
-      {events.map(event => (
-        <EventListItem
-          key={event.id}
-          event={event}
-        />
-      ))}
-    </div>
-  )
+    <>
+      <EventGrid events={events} setEvents={setEvents}/>
+    </>
+  );
 }
 
 export default Events;
