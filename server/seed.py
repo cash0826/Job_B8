@@ -60,6 +60,7 @@ with app.app_context():
     contact = Contact(
       name=name,
       email=email,
+      phone_number=fake.msisdn()
     )
     
     contact.job = choice(jobs)
