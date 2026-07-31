@@ -35,7 +35,7 @@ class ContactService:
     contact = Contact(
       name=data.get('name'),
       email=data.get('email'),
-      phone=data.get('phone'),
+      phone_number=data.get('phone_number'),
       job_id=job.id
     )
     

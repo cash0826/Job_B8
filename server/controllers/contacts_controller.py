@@ -62,12 +62,12 @@ class Contacts(Resource):
       return {'errors': ['404 Contact not found']}, 404
     if error == "invalid_data":
       return {'errors': ['404 Invalid data']}, 400
-    return event_schema.dump(contact), 201
+    return contact_schema.dump(contact), 201
   
   # DELETE /contacts/<id>
   @jwt_required()
   def delete(self, id):
-    event, error = ContactService.delete_contact(contact_id=id)
+    contact, error = ContactService.delete_contact(contact_id=id)
     
     if error == "contact_not_found":
       return {'errors': ['404 Contact not found']}, 404
