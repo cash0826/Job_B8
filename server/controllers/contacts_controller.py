@@ -32,68 +32,46 @@ class Contacts(Resource):
       "pages": contacts.pages,
       "current_page": contacts.page
     }, 200
-
-class JobContacts(Resource):
-  
-  # GET /jobs/<job_id>/contacts
-  @jwt_required()
-  def get(self, job_id):
-    job = ContactService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
     
-    contacts = Contact.query.filter_by(job_id=job.id).all()
-    return contacts_schema.dump(contacts), 200
-  
-  # POST /jobs/<job_id>/contacts
+  # POST /contacts
   @jwt_required()
-  def post(self, job_id):
+  def post(self):
     data = request.get_json()
     if not data:
       abort(400, description="Missing JSON data")
     
-    contact, error = ContactService.create_contact(job_id, data)
+    job_id = data.get('job_id')
+    contact, error = ContactService.create_contact(job_id=job_id, data=data)
     
     if error == "job_not_found":
       return {'errors': ['404 Job not found']}, 404
     if error == "invalid_data":
       return {'errors': ['400 Invalid data']}, 400
-    return contact_schema.dump(contact), 201
+    return contact_schema_dump(contact), 201
   
-  # PATCH /jobs/<job_id>/contacts/<contact_id>
+  # PATCH /contacts/<id>
   @jwt_required()
-  def patch(self, job_id, contact_id):
+  def patch(self, id):
     data = request.get_json()
     if not data:
       abort(400, description="Missing JSON data")
-      
-    # Validate job owner
-    job = ContactService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
     
-    # Validate contact belongs to job
-    contact = ContactService.get_contact_for_job(contact_id, job_id)
-    if not contact:
+    contact, error = ContactService.update_contact(contact_id=id, data=data)
+    
+    if error == "contact_not_found":
       return {'errors': ['404 Contact not found']}, 404
-    
-    # Update Contact
-    updated_contact = ContactService.update_contact(contact, data)
-    if not updated_contact:
-      return {'errors': ['400 Invalid data']}, 400
-    return contact_schema.dump(updated_contact), 200
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400
+    return event_schema.dump(contact), 201
   
-  # DELETE /jobs/<id>/contacts/<contact_id>
+  # DELETE /contacts/<id>
   @jwt_required()
-  def delete(self, job_id, contact_id):
-    job = ContactService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
+  def delete(self, id):
+    event, error = ContactService.delete_contact(contact_id=id)
     
-    contact = ContactService.get_contact_for_job(contact_id, job_id)
-    if not contact:
+    if error == "contact_not_found":
       return {'errors': ['404 Contact not found']}, 404
-    
-    if not ContactService.delete_contact(contact):
-      return {'errors': ['400 Could not delete contact']}, 400
-    return {'message': 'Contact deleted successfully'}, 200
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400    
+    if contact:
+      return {'message': 'Contact deleted successfully'}, 200
