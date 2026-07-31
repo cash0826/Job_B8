@@ -48,3 +48,30 @@ class Events(Resource):
     if error == "invalid_data":
       return {'errors': ['400 Invalid data']}, 400
     return event_schema.dump(event), 201
+  
+  # PATCH /events/<id>
+  @jwt_required()
+  def patch(self, id):
+    data = request.get_json()
+    if not data:
+      abort(400, description="Missing JSON data")
+    
+    event, error = EventService.update_event(event_id=id, data=data)
+    
+    if error == "event_not_found":
+      return {'errors': ['404 Event not found']}, 404
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400
+    return event_schema.dump(event), 201
+  
+  # DELETE /events/<id>
+  @jwt_required()
+  def delete(self, id):
+    event, error = EventService.delete_event(event_id=id)
+    
+    if error == "event_not_found":
+      return {'errors': ['404 Event not found']}, 404
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400
+    if event:
+      return {'message': 'Event deleted successfully'}, 200
