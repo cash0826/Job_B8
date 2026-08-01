@@ -14,13 +14,13 @@ This application will centralize all of your job applications to a single view, 
 
 ## Set Up Instructions
 
-1. 
+1. Ensure db has been initialized.
 
-2.  
+2. Run testing (server-side only)
 
-3.  
+3. Run server
 
-4. 
+4. Run client 
 
 
 ## Overview of Functionality/Features (expected)
