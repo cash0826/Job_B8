@@ -28,7 +28,7 @@ function EventGrid({ events, setEvents, ...props }) {
   const grouped = groupEventsByMonth(sortedEvents);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 mx-auto px-4">
       {Object.entries(grouped).map(([month, monthEvents]) => (
         <section key={month}>
           {/* Month Header */}

@@ -10,7 +10,7 @@ function AddContactForm({contact, setContacts, ...props}) {
   const [contactData, setContactData] = useState({
     name: "",
     email: "",
-    phone: "",
+    phone_number: "",
   })
 
   async function handleSubmit(e) {
@@ -18,7 +18,7 @@ function AddContactForm({contact, setContacts, ...props}) {
     const newContactData = {
       name: contactData.name,
       email: contactData.email,
-      phone: contactData.phone,
+      phone_number: contactData.phone_number,
       job_id: jobId
     }
     let newContact = await addContact(newContactData);
@@ -28,7 +28,7 @@ function AddContactForm({contact, setContacts, ...props}) {
     setContactData({
       name: "",
       email: "",
-      phone: "",      
+      phone_number: "",      
     })
     setOpen(false)
   }
@@ -90,7 +90,7 @@ function AddContactForm({contact, setContacts, ...props}) {
               />
               <input
                 type="email"
-                placeholder="Email to reach"
+                placeholder="Email To Contact"
                 value={contactData.email}
                 onChange={(e) => setContactData({...contactData, email: e.target.value})}
                 className="border p-2 rounded"
@@ -98,9 +98,9 @@ function AddContactForm({contact, setContacts, ...props}) {
               />
               <input
                 type="tel"
-                placeholder="+1 123-456-5678"
-                value={contactData.phone}
-                onChange={(e) => setContactData({...contactData, phone: e.target.value})}
+                placeholder="Phone To Contact (All formats accepted)"
+                value={contactData.phone_number}
+                onChange={(e) => setContactData({...contactData, phone_number: e.target.value})}
                 className="border p-2 rounded"
               />
               <button

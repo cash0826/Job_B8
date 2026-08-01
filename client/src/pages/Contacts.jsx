@@ -21,12 +21,13 @@ function Contacts() {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="bg-white shadow-sm rounded-lg p-3 flex flex-col justify-center">
+    <div className="space-y-6 mx-auto px-4">
+      <div className="bg-white shadow-sm rounded-lg p-3">
         {contacts.map(contact => (
           <ContactListItem
             key={contact.id}
             contact={contact}
+            setContacts={setContacts}
           />
         ))}
       </div>
