@@ -21,8 +21,8 @@ export function AuthProvider({ children }) {
 
   async function login(credentials) {
     const data = await userLogin(credentials)
-    setUser(data)
-    return data
+    setUser(data.user)
+    return data.user
   }
 
   function logout() {
