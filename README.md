@@ -8,21 +8,57 @@ This application will centralize all of your job applications to a single view, 
 
 **Backend**: Python, Pipenv, Flask, Flask-Migrate, Flask-Restful, Flask-Bcrypt, Flask-SQLAlchemy, Flask-JWT-Extended, Bcrypt, Marshmallow, Faker
 
-**Frontend**: JavaScript, Node.js, Vite, React, React Router, eslint, Tailwind CSS,  
+**Frontend**: JavaScript, Node.js, Vite, React, React Router, eslint, Tailwind CSS, Tailwind Heroicons, date-fns
 
 ### API (if used)
+- API was not used due to time constraints.
+
+## Basic Installation
+1. Fork or Clone this repository from GitHub.
+    ```
+    git clone <repository-url>
+    cd Job_B8
+    ```
+  
+2. Set up server. From your terminal and the project root, run:
+    ```
+    cd server
+    pipenv install
+    pipenv shell
+    export FLASK_APP=app.py
+    export FLASK_RUN_PORT=5555
+    ```
+    Use **set** instead of export if running on Windows OS
+  
+3. Set up client. On a new terminal and from the project root, run:
+    ```
+    cd client
+    npm install
+    npm run dev
+    ```
 
 ## Set Up Instructions
 
-1. Ensure db has been initialized.
-
-2. Run testing (server-side only)
-
-3. Run server
-
-4. Run client 
-
-
+1. Ensure db has been initialized and the database has been seeded.
+    ```
+    flask db init
+    flask db migrate -m "initial migration"
+    flask db seed.py
+    ```
+  To use a seeded user for login, access the app.db instance, select a user, and login with their associated email.  
+  The password is the user's name in lowercase + "password".  
+  
+2. Run testing from pipenv (server-side only)
+    ```
+    pytest -q
+    ```
+    **Note** Running pytest will also drop sql tables. Reinitialize flask db if you run the tests
+    
+3. Run server from pipenv
+    ```
+    python app.py
+    ```
+  
 ## Overview of Functionality/Features (expected)
 
 1. SQL Data Models, API Endpoints, and React Components.
@@ -33,19 +69,18 @@ This application will centralize all of your job applications to a single view, 
 6. Reporting feature on user's dashboard.
 
 ## Known Challenges or Limitations
+- No Signup form and page developed (as recommended for scope of this project).
+- No external API incorporated. It was proposed that an external API such as LinkedIn or Monster could help add jobs to the dashboard. This was an optional feature and unfortunately there was not enough time.  
+- Documents was not added as part of the front end. It was developed in the backend only.  
+- Calendar for Events was not developed (it was attempted but left as a grid for now).  
+- Update UI missing for contacts/events.  
 
-- No Signup form and page developed (as recommended).
-- No external API incorporated. It was discussed that an external API like LinkedIn or Monster could help add jobs to the job board. This was an optional feature and unfortunately time ran out.
-- Documents was not added as part of the front end. It was developed in the backend only. 
-- Calendar for Events was not developed (it was attempted but left as a grid for now)
-- Update event/contact was developed in the backend and partially in the front end. To save some time, I excluded the update UI flow because there are only 3 inputs to edit. Delete/Add achieve the same end results in the same time. 
-- Search function can be added to dashboard
-
-## Other small features pending to include
-- When job status is "Not Selected" remove from dashboard, but keep in backend.
-
+## Other small features to include
+- When job status is "Not Selected" remove from dashboard, but keep in backend.  
+- Search function can be added to dashboard.
+    
 ## Deployment Link
-- App not deployed yet
+- App not deployed yet.  
 
 ## Acknowledgements
 - Tailwind CSS and MS Copilot AI for assistance with page design and occasional debugging. 
