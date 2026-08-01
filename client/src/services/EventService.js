@@ -17,8 +17,8 @@ export async function loadEvents() {
 }
 
 // Add event
-export async function addEvent(newEventdata) {
-  if (newEventdata) {
+export async function addEvent(newEventData) {
+  if (newEventData) {
     const url = `${BASE_URL}/api/events`
     const response = await fetch(url, {
       method: "POST",
@@ -26,7 +26,7 @@ export async function addEvent(newEventdata) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem("token")}`
       },
-      body: JSON.stringify(newEventdata)
+      body: JSON.stringify(newEventData)
     });
     if (response.ok) {
       const data = await response.json();

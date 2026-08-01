@@ -1,35 +1,34 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom"
-import { addEvent } from "../../services/EventService";
-import { PlusIcon, CalendarDaysIcon } from "@heroicons/react/24/solid";
-import DateTimePicker from "./DateTimePicker";
+import { addContact } from "../../services/ContactService";
+import { UserPlusIcon } from "@heroicons/react/24/solid";
 
-function AddEventForm({events, setEvents, ...props}) {
+function AddContactForm({contact, setContacts, ...props}) {
   const { jobs, setJobs } = useOutletContext();
   const [ jobId, setJobId ] = useState("")
   const [open, setOpen] = useState(false)
-  const [eventData, setEventData] = useState({
-    event_title: "",
-    scheduled_time: new Date(),
-    notes: "",
+  const [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    phone: "",
   })
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const newEventData = {
-      event: eventData.event_title,
-      scheduled_time: eventData.scheduled_time,
-      notes: eventData.notes,
+    const newContactData = {
+      name: contactData.name,
+      email: contactData.email,
+      phone: contactData.phone,
       job_id: jobId
     }
-    let newEvent = await addEvent(newEventData);
-    if (newEvent) {
-      setEvents(events =>[...events, newEvent])
+    let newContact = await addContact(newContactData);
+    if (newContact) {
+      setContacts(contacts =>[...contacts, newContact])
     }
-    setEventData({
-      event_title: "",
-      scheduled_time: new Date(),
-      notes: "",      
+    setContactData({
+      name: "",
+      email: "",
+      phone: "",      
     })
     setOpen(false)
   }
@@ -44,7 +43,7 @@ function AddEventForm({events, setEvents, ...props}) {
             cursor-pointer rounded-md 
             bg-white border border-gray-300 hover:bg-sky-100"
         >
-          {<PlusIcon className="w-6 h-6"/>}{<CalendarDaysIcon className="w-6 h-6"/>}
+          {<UserPlusIcon className="w-6 h-6"/>}
         </button>
       )}
 
@@ -62,7 +61,7 @@ function AddEventForm({events, setEvents, ...props}) {
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">New Event:</h2>
+              <h2 className="text-xl font-semibold">New Contact:</h2>
               <button onClick={() => setOpen(false)} className="text-gray-500 hover:text-gray-700">
                 ✕
               </button>
@@ -83,27 +82,32 @@ function AddEventForm({events, setEvents, ...props}) {
               </select>
               <input
                 type="text"
-                placeholder="(Assessment, Interview, Job Offer Discussion...)"
-                value={eventData.event_title}
-                onChange={(e) => setEventData({...eventData, event_title: e.target.value})}
+                placeholder="Recruiter's Name"
+                value={contactData.name}
+                onChange={(e) => setContactData({...contactData, name: e.target.value})}
                 className="border p-2 rounded"
                 required
               />
-              <DateTimePicker
-                value={eventData.scheduled_time} 
-                onChange={(dt) => setEventData({ ...eventData, scheduled_time: dt})}
+              <input
+                type="email"
+                placeholder="Email to reach"
+                value={contactData.email}
+                onChange={(e) => setContactData({...contactData, email: e.target.value})}
+                className="border p-2 rounded"
+                required
               />
-              <textarea
-                placeholder="Important notes about the upcoming event..."
-                value={eventData.notes}
-                onChange={(e) => setEventData({...eventData, notes: e.target.value})}
+              <input
+                type="tel"
+                placeholder="+1 123-456-5678"
+                value={contactData.phone}
+                onChange={(e) => setContactData({...contactData, phone: e.target.value})}
                 className="border p-2 rounded"
               />
               <button
                 type="submit"
                 className="bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-blue-600"
               >
-                Add New Event
+                Add New Contact
               </button>
             </form>
           </div>
@@ -113,4 +117,4 @@ function AddEventForm({events, setEvents, ...props}) {
   )
 }
 
-export default AddEventForm;
+export default AddContactForm;

@@ -17,7 +17,7 @@ export async function loadContacts() {
 }
 
 // Add Contacts
-export async function addContact(newContactdata) {
+export async function addContact(newContactData) {
   if (newContactData) {
     const url = `${BASE_URL}/api/contacts`
     const response = await fetch(url, {
