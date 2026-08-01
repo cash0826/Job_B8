@@ -17,8 +17,8 @@ export async function loadEvents() {
 }
 
 // Add event
-export async function addEvent(newEventdata) {
-  if (newEventdata) {
+export async function addEvent(newEventData) {
+  if (newEventData) {
     const url = `${BASE_URL}/api/events`
     const response = await fetch(url, {
       method: "POST",
@@ -26,13 +26,13 @@ export async function addEvent(newEventdata) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem("token")}`
       },
-      body: JSON.stringify(newEventdata)
+      body: JSON.stringify(newEventData)
     });
     if (response.ok) {
       const data = await response.json();
       return data
     }
-    throw new Error(`adding new event ${response.statusText}`);
+    throw new Error(`adding new event: ${response.statusText}`);
     return null
   }
 }
@@ -73,7 +73,7 @@ export async function deleteEvent(id) {
       console.log(response.statusText)
       return null
     }
-    throw new Error(`deleting event:  ${response.statusText}`);
+    throw new Error(`deleting event: ${response.statusText}`);
     return null
   }
 }

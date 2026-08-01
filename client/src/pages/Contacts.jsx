@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { loadContacts } from "../services/ContactService";
-import ContactListItem from "../components/ContactListItem";
+import AddContactForm from "../components/Contacts/AddContactForm";
+import ContactListItem from "../components/Contacts/ContactListItem";
 
 function Contacts() {
   const [contacts, setContacts] = useState([])
@@ -20,13 +21,20 @@ function Contacts() {
   }
 
   return (
-    <div className="contact-list">
-      {contacts.map(contact => (
-        <ContactListItem
-          key={contact.id}
-          contact={contact}
-        />
-      ))}
+    <div className="space-y-6 mx-auto px-4">
+      <div className="bg-white shadow-sm rounded-lg p-3">
+        {contacts.map(contact => (
+          <ContactListItem
+            key={contact.id}
+            contact={contact}
+            setContacts={setContacts}
+          />
+        ))}
+      </div>
+      
+      <div>
+        <AddContactForm contacts={contacts} setContacts={setContacts}/>
+      </div>
     </div>
   )
 }

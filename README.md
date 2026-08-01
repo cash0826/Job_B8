@@ -38,7 +38,7 @@ This application will centralize all of your job applications to a single view, 
 - No external API incorporated. It was discussed that an external API like LinkedIn or Monster could help add jobs to the job board. This was an optional feature and unfortunately time ran out.
 - Documents was not added as part of the front end. It was developed in the backend only. 
 - Calendar for Events was not developed (it was attempted but left as a grid for now)
-- Update event/contact was developed in the backend and partially in the front end. I decided to exclude UI flow to update an event/contact because there are only 3 inputs to edit, it's just as easy to delete and create a new event/contact
+- Update event/contact was developed in the backend and partially in the front end. To save some time, I excluded the update UI flow because there are only 3 inputs to edit. Delete/Add achieve the same end results in the same time. 
 
 ## Other small features pending to include
 - When job status is "Not Selected" remove from dashboard, but keep in backend.
@@ -48,5 +48,4 @@ This application will centralize all of your job applications to a single view, 
 
 ## Acknowledgements
 - Tailwind CSS and MS Copilot AI for assistance with page design and occasional debugging. 
-- All technologies used as listed above.
-
+- All technologies listed above.

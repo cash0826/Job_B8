@@ -33,26 +33,15 @@ class Documents(Resource):
       "current_page": documents.page
     }, 200
 
-class JobDocuments(Resource):
-    
-  # GET /jobs/<job_id>/documents
+  # POST /documents
   @jwt_required()
-  def get(self, job_id):
-    job = DocumentService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
-    
-    documents = Document.query.filter_by(job_id=job.id).all()
-    return documents_schema.dump(documents), 200
-  
-  # POST /jobs/<job_d>/documents
-  @jwt_required()
-  def post(self, job_id):
+  def post(self):
     data = request.get_json()
     if not data:
       abort(400, description="Missing JSON data")
     
-    document, error = DocumentService.create_document(job_id, data)
+    job_id = data.get('job_id')
+    document, error = DocumentService.create_document(job_id=job_id, data=data)
     
     if error == "job_not_found":
       return {'errors': ['404 Job not found']}, 404
@@ -60,41 +49,29 @@ class JobDocuments(Resource):
       return {'errors': ['400 Invalid data']}, 400
     return document_schema.dump(document), 201
   
-  # PATCH /jobs/<job_id/documents/<document_id>
+  # PATCH /document/<id>
   @jwt_required()
-  def patch(self, job_id, document_id):
+  def patch(self, id):
     data = request.get_json()
     if not data:
       abort(400, description="Missing JSON data")
     
-    # Validate job owner
-    job = DocumentService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
+    document, error = DocumentService.update_document(document_id=id, data=data)
     
-    # Validate document belongs to job
-    document = DocumentService.get_document_for_job(document_id, job_id)
-    if not document:
-      return {'error': ['404 Document not found']}, 404
-    
-    # Update Document
-    updated_document = DocumentService.update_document(document, data)
-    if not updated_document:
-      return {'errors': ['400 Invalid data']}, 400
-    return document_schema.dump(updated_document), 200
-  
-  # DELETE /jobs/<job_id>/documents/<document_id>
-  @jwt_required()
-  def delete(self, job_id, document_id):
-    job = DocumentService.get_job_for_user(job_id)
-    if not job:
-      return {'errors': ['404 Job not found']}, 404
-    
-    document = DocumentService.get_document_for_job(document_id, job_id)
-    if not document:
+    if error == "document_not_found":
       return {'errors': ['404 Document not found']}, 404
-    
-    if not DocumentService.delete_document(document):
-      return {'errors': ['400 Could not delete document']}, 400
-    return {'message': 'Document deleted successfully'}, 200
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400
+    return document_schema.dump(document), 201
   
+  # DELETE /document/<id>
+  @jwt_required()
+  def delete(self, id):
+    document, error = DocumentService.delete_document(document_id=id)
+    
+    if error == "document_not_found":
+      return {'errors': ['404 Document not found']}, 404
+    if error == "invalid_data":
+      return {'errors': ['404 Invalid data']}, 400
+    if document:
+      return {'message': 'Document deleted successfully'}, 200

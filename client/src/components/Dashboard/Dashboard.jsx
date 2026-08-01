@@ -7,7 +7,7 @@ function Dashboard() {
   // Possible Search to Add if time provided
 
   return (
-    <section>
+    <section className="space-y-6 mx-auto px-4">
       <div className="flex justify-center">
         <Overview/>
       </div>

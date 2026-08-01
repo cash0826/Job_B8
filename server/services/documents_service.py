@@ -32,7 +32,11 @@ class DocumentService:
     if not job:
       return None, "job_not_found"
     
-    document = Document(job_id=job_id, **data)
+    document = Document(
+      type=data.get('type'),
+      job_id=job.id
+    )
+    
     try:
       db.session.add(document)
       db.session.commit()
@@ -42,25 +46,33 @@ class DocumentService:
       return None, "invalid_data"
   
   @staticmethod
-  def update_document(document, data):
+  def update_document(document_id, data):
+    document = Document.query.filter_by(id=document_id).first()
+    
+    if not document:
+      return None, "document_not_found"
     for key, value in data.items():
       setattr(document, key, value)
     try:
       db.session.commit()
-      return document
+      return document, None
     except IntegrityError:
       db.session.rollback()
-      return None
+      return None, "invalid_data"
     
   @staticmethod
-  def delete_document(document):
+  def delete_document(document_id):
+    document = Document.query.filter_by(id=document_id).first()
+    if not document:
+      return None, "document_not_found"
+    
     try:
       db.session.delete(document)
       db.session.commit()
-      return True
+      return True, None
     except IntegrityError:
       db.session.rollback()
-      return False
+      return False, "invalid_data"
     
 # 401 Unauthorized handled by jwt_required
 # 404 Not Found

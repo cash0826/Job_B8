@@ -32,7 +32,13 @@ class ContactService:
     if not job:
       return None, "job_not_found"
     
-    contact = Contact(job_id=job_id, **data)
+    contact = Contact(
+      name=data.get('name'),
+      email=data.get('email'),
+      phone_number=data.get('phone_number'),
+      job_id=job.id
+    )
+    
     try:
       db.session.add(contact)
       db.session.commit()
@@ -42,26 +48,34 @@ class ContactService:
       return None, "invalid_data"
 
   @staticmethod
-  def update_contact(contact, data):
+  def update_contact(contact_id, data):
+    contact = Contact.query.filter_by(id=contact_id).first()
+    
+    if not contact:
+      return None, "contact_not_found"
     for key, value in data.items():
       setattr(contact, key, value)
     try:
       db.session.commit()
-      return contact
+      return contact, None
     except IntegrityError:
       db.session.rollback()
-      return None
+      return None, "invalid_data"
 
   @staticmethod
-  def delete_contact(contact):
+  def delete_contact(contact_id):
+    contact = Contact.query.filter_by(id=contact_id).first()
+    if not contact:
+      return None, "contact_not_found"
+    
     try:
       db.session.delete(contact)
       db.session.commit()
-      return True
+      return True, None
     except IntegrityError:
       db.session.rollback()
-      return False
-  
+      return False, "invalid_data"
+
 # 401 Unauthorized handled by jwt_required
 # 404 Not Found
 # 400 Invalid data
