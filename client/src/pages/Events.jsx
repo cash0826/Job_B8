@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { loadEvents } from "../services/EventService";
 import EventGrid from "../components/Events/EventGrid";
+import AddEventForm from "../components/Events/AddEventForm";
 
 function Events() {
   const [events, setEvents] = useState([]);
@@ -13,8 +14,8 @@ function Events() {
         setEvents(data || []);
         setLoading(false);
       })
-      .catch(err => {
-        console.error("Error retrieving events:", err);
+      .catch(error => {
+        console.error("Error retrieving events:", error);
         setError("Unable to load events.");
         setLoading(false);
       });
@@ -27,6 +28,11 @@ function Events() {
   return (
     <>
       <EventGrid events={events} setEvents={setEvents}/>
+      <div>
+        <div className="bg-white shadow-sm rounded-lg flex justify-center">
+          <AddEventForm events={events} setEvents={setEvents}/>
+        </div>
+      </div>
     </>
   );
 }

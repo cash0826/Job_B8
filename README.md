@@ -39,6 +39,7 @@ This application will centralize all of your job applications to a single view, 
 - Documents was not added as part of the front end. It was developed in the backend only. 
 - Calendar for Events was not developed (it was attempted but left as a grid for now)
 - Update event/contact was developed in the backend and partially in the front end. To save some time, I excluded the update UI flow because there are only 3 inputs to edit. Delete/Add achieve the same end results in the same time. 
+- Search function can be added to dashboard
 
 ## Other small features pending to include
 - When job status is "Not Selected" remove from dashboard, but keep in backend.

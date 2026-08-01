@@ -5,12 +5,24 @@ import LeftNavBar from "../components/LeftNavBar/LeftNavBar";
 
 function Home() {
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadJobs()
-      .then((data) => setJobs(data))
-      .catch((error) => console.log("Error retrieving jobs: ", error))
+      .then(data => {
+        setJobs(data || []);
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error("Error retrieving jobs", error)
+        setError("Unable to load jobs.")
+      })
   }, []);
+
+  if (loading) return <p>Loading Jobs...</p>;
+  if (error) return <p> {error} </p>;
+  if (jobs.message) return <p> {jobs.message} </p>;
 
   return (
     <div className="min-h-screen bg-gray-50 flex">

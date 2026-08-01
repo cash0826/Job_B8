@@ -4,13 +4,13 @@ import JobListItem from "./JobListItem";
 function JobList() {
   const { jobs, setJobs } = useOutletContext();
 
-  // Handle error response
-  if (jobs.message) {
-    return <p>{jobs.message}</p>
-  }
-
-  if (jobs.length === 0) {
-    return <p>Loading Jobs...</p>
+  // Empty-state
+  if (!jobs || jobs.length === 0) {
+    return (
+      <div className="font-semibold text-center text-gray-600">
+        No jobs yet. Add your first job above.
+      </div>
+    );
   }
 
   return (

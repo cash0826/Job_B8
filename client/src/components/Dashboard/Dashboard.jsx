@@ -4,8 +4,6 @@ import AddJobForm from "./AddJobForm";
 
 function Dashboard() {
 
-  // Possible Search to Add if time provided
-
   return (
     <section className="space-y-3 mx-auto px-4">
       <div className="flex justify-center">
