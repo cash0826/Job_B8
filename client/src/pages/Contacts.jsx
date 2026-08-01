@@ -1,41 +1,38 @@
 import { useState, useEffect } from 'react';
 import { loadContacts } from "../services/ContactService";
 import AddContactForm from "../components/Contacts/AddContactForm";
-import ContactListItem from "../components/Contacts/ContactListItem";
+import ContactGrid from "../components/Contacts/ContactGrid";
 
 function Contacts() {
   const [contacts, setContacts] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadContacts()
-      .then( (data) => setContacts(existing => data ) )
-      .catch( (error) => console.log("Error retrieving contacts: ", error))
+      .then(data => {
+        setContacts(data || []) ;
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Error retrieving contacts: ", error);
+        setError("Uanble to load contacts.");
+        setLoading(false)
+      })
   }, []);  
 
-  if (contacts.message) {
-    return <p>{contacts.message}</p>
-  }
-
-  if (contacts.length === 0) {
-    return <p>Loading Contacts...</p>
-  }
+  if (loading) return <p>Loading Contacts...</p>;
+  if (error) return <p> {error} </p>;
+  if (contacts.message) return <p> {contacts.message} </p>;
 
   return (
-    <div className="space-y-6 mx-auto px-4">
-      <div className="bg-white shadow-sm rounded-lg p-3">
-        {contacts.map(contact => (
-          <ContactListItem
-            key={contact.id}
-            contact={contact}
-            setContacts={setContacts}
-          />
-        ))}
-      </div>
-      
+    <>
+      <ContactGrid contacts={contacts} setContacts={setContacts}/>
+
       <div>
         <AddContactForm contacts={contacts} setContacts={setContacts}/>
       </div>
-    </div>
+    </>
   )
 }
 
