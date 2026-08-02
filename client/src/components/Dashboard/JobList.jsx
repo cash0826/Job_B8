@@ -24,7 +24,7 @@ function JobList() {
         rounded-t-lg 
         p-3"
       >
-        <h3 className="font-semibold text-gray-700 text-left">Role/Title</h3>
+        <h3 className="font-semibold text-gray-700 text-left">Role/Title (URL)</h3>
         <h3 className="font-semibold text-gray-700 text-left">Company</h3>
         <h3 className="font-semibold text-gray-700 text-left">Location</h3>
         <h3 className="hidden md:block font-semibold text-gray-700 text-left">Description</h3>

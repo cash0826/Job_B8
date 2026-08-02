@@ -61,7 +61,7 @@ function JobListItem({ job }) {
       border-b border-gray-200 
       hover:bg-gray-50"
       >
-      <span className="text-gray-800 text-left wrap-break-words">{job.title}</span>
+      <span className="text-gray-800 text-left wrap-break-words underline"><a href={job.url}>{job.title}</a></span>
       <span className="text-gray-800 text-left wrap-break-words">{job.company}</span>
       <span className="text-gray-800 text-left wrap-break-words">{job.location}</span>
       <span className="hidden md:block text-gray-800 text-left truncate">{job.description}</span>

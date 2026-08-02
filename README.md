@@ -57,14 +57,14 @@ This application will centralize all of your job applications to a single view, 
   python app.py
   ```
 
-5. Run React in another terminal from the client directory:
+6. Run React in another terminal from the client directory:
   ```bash
   npm run dev
   ```
   To use a seeded user for login, access the app.db instance, select a user, and login with their associated email.  
   The password is the user's name in lowercase + "password". 
 
-6. Run testing from pipenv (server-side only)
+7. Run testing from pipenv (server-side only)
     ```
     pytest -q
     ```
