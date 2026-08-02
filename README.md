@@ -22,19 +22,15 @@ This application will centralize all of your job applications to a single view, 
   cd Job_B8
   ```
 
-2. Install Dependencies
-    Change into the server directory `cd server`.
-    Run `pipenv install` to create your virtual environment and install dependencies. 
-    Run `pipenv shell` to enter the virtual environment.
+2. Install Dependencies.\ 
+Change into the server directory `cd server`. Run `pipenv install` to create your virtual environment and install dependencies. Run `pipenv shell` to enter the virtual environment.\
+Change into the client directory and install node dependencies for the frontend. Run `npm install --prefix client` OR `cd ..`, `cd client` and `npm install`
 
-    Change into the client directory and install node dependencies for the frontend.
-    Run `npm install --prefix client` OR `cd ..`, `cd client` and `npm install`
-
-      Alternative commands:
-      ```
-      pipenv install && pipenv shell
-      npm install --prefix client
-      ```
+  Alternative commands:
+  ```
+  pipenv install && pipenv shell
+  npm install --prefix client
+  ```
   
 3. Configure Flask App. Change to the server directory and configure the the Flask App environment variables:
     ```
@@ -61,8 +57,8 @@ This application will centralize all of your job applications to a single view, 
   ```bash
   npm run dev
   ```
-    To use a seeded user for login, access the app.db instance, select a user, and login with their associated email.  
-    The password is the user's name in lowercase + "password". 
+  To use a seeded user for login, access the app.db instance, select a user, and login with their associated email.  
+  The password is the user's name in lowercase + "password". 
 
 7. Run testing from pipenv (server-side only)
     ```
