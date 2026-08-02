@@ -34,13 +34,18 @@ Change into the client directory and install node dependencies for the frontend.
   
 3. Configure Flask App. Change to the server directory and configure the the Flask App environment variables:
     ```
+    JWT_SECRET_KEY=your-secret-key-here
+    ```
+
+4. Configure an environment variable. From the server directory, create and configure a JWT-SECRET-KEY:
+    ```
     cd server
     export FLASK_APP=app.py
     export FLASK_RUN_PORT=5555
     ```
     Use **set** instead of export if on Window OS.
   
-4. Create and seed the database. Ensure that you are in the server directory and run:
+5. Create and seed the database. Ensure that you are in the server directory and run:
     ```
     flask db init
     flask db migrate -m "initial migration"
@@ -48,19 +53,19 @@ Change into the client directory and install node dependencies for the frontend.
     python seed.py
     ```
   
-5. To open and view the backend, ensure that you are in the server directory and run:
+6. To open and view the backend, ensure that you are in the server directory and run:
     ```
     python app.py
     ```
 
-6. Run React in another terminal from the client directory:
+7. Run React in another terminal from the client directory:
     ```bash
     npm run dev
     ```
     To use a seeded user for login, access the app.db instance, select a user, and login with their associated email.  
     The password is the user's name in lowercase + "password". 
 
-7. Run testing from pipenv (server-side only)
+8. Run testing from pipenv (server-side only)
     ```
     pytest -q
     ```
