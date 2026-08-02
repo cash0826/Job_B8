@@ -32,12 +32,11 @@ Change into the client directory and install node dependencies for the frontend.
     npm install --prefix client
     ```
   
-3. Configure Flask App. Change to the server directory and configure the the Flask App environment variables:
-    ```
+3. Configure an environment variable. From the server directory, create and configure a JWT-SECRET-KEY:
     JWT_SECRET_KEY=your-secret-key-here
     ```
 
-4. Configure an environment variable. From the server directory, create and configure a JWT-SECRET-KEY:
+4. Configure Flask App. Change to the server directory and configure the the Flask App environment variables:
     ```
     cd server
     export FLASK_APP=app.py
